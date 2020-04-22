@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touchkiss.categoryoflife.translate.mapper.TranslateDaoM">
+  <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.translate.bean.Translate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="canonical_name" jdbcType="VARCHAR" property="canonicalName" />
+    <result column="translate" jdbcType="VARCHAR" property="translate" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="language" jdbcType="VARCHAR" property="language" />
+    <result column="lid" jdbcType="VARCHAR" property="lid" />
+    <result column="tree_id" jdbcType="VARCHAR" property="treeId" />
+    <result column="fetched" jdbcType="BIT" property="fetched" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="last_modify_time" jdbcType="BIGINT" property="lastModifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,canonical_name,translate,full_name,language,lid,tree_id,fetched,create_time,last_modify_time
+  </sql>
+  <insert id="insert" parameterType="com.touchkiss.categoryoflife.translate.bean.Translate">
+     insert into t_translate(<include refid="Base_Column_List"></include>)
+     values (
+     #{id,jdbcType=INTEGER},#{canonicalName,jdbcType=VARCHAR},#{translate,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{language,jdbcType=VARCHAR},#{lid,jdbcType=VARCHAR},#{treeId,jdbcType=VARCHAR},#{fetched,jdbcType=BIT},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+  </insert>
+  <insert id="insertWithoutId" parameterType="com.touchkiss.categoryoflife.translate.bean.Translate" useGeneratedKeys="true" keyProperty="id">
+     insert into t_translate(canonical_name,translate,full_name,language,lid,tree_id,fetched,create_time,last_modify_time)
+     values (
+     #{canonicalName,jdbcType=VARCHAR},#{translate,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{language,jdbcType=VARCHAR},#{lid,jdbcType=VARCHAR},#{treeId,jdbcType=VARCHAR},#{fetched,jdbcType=BIT},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+     delete from t_translate
+     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByMap">
+        delete from t_translate
+        <include refid="whereSql"></include>
+    </delete>
+  <update id="updateById">
+     update t_translate
+     set
+       canonical_name = #{translate.canonicalName,jdbcType=VARCHAR},
+       translate = #{translate.translate,jdbcType=VARCHAR},
+       full_name = #{translate.fullName,jdbcType=VARCHAR},
+       language = #{translate.language,jdbcType=VARCHAR},
+       lid = #{translate.lid,jdbcType=VARCHAR},
+       tree_id = #{translate.treeId,jdbcType=VARCHAR},
+       fetched = #{translate.fetched,jdbcType=BIT},
+       create_time = #{translate.createTime,jdbcType=BIGINT},
+       last_modify_time = #{translate.lastModifyTime,jdbcType=BIGINT}
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSelectiveById">
+     update t_translate
+     set
+        <trim suffixOverrides=",">
+     <if test="translate.canonicalName != null">
+       canonical_name = #{translate.canonicalName,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.translate != null">
+       translate = #{translate.translate,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.fullName != null">
+       full_name = #{translate.fullName,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.language != null">
+       language = #{translate.language,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.lid != null">
+       lid = #{translate.lid,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.treeId != null">
+       tree_id = #{translate.treeId,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.fetched != null">
+       fetched = #{translate.fetched,jdbcType=BIT},
+     </if>
+     <if test="translate.createTime != null">
+       create_time = #{translate.createTime,jdbcType=BIGINT},
+     </if>
+     <if test="translate.lastModifyTime != null">
+       last_modify_time = #{translate.lastModifyTime,jdbcType=BIGINT}
+     </if>
+        </trim>
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSelectiveByMap">
+     update t_translate
+     set
+        <trim suffixOverrides=",">
+     <if test="translate.canonicalName != null">
+       canonical_name = #{translate.canonicalName,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.translate != null">
+       translate = #{translate.translate,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.fullName != null">
+       full_name = #{translate.fullName,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.language != null">
+       language = #{translate.language,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.lid != null">
+       lid = #{translate.lid,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.treeId != null">
+       tree_id = #{translate.treeId,jdbcType=VARCHAR},
+     </if>
+     <if test="translate.fetched != null">
+       fetched = #{translate.fetched,jdbcType=BIT},
+     </if>
+     <if test="translate.createTime != null">
+       create_time = #{translate.createTime,jdbcType=BIGINT},
+     </if>
+     <if test="translate.lastModifyTime != null">
+       last_modify_time = #{translate.lastModifyTime,jdbcType=BIGINT}
+     </if>
+        </trim>
+        <include refid="whereSql"></include>
+  </update>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     select
+     <include refid="Base_Column_List" />
+     from t_translate
+     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryTranslateList" parameterType="java.util.HashMap"  resultMap="BaseResultMap">
+     select * FROM  t_translate  <include refid="whereSql"></include>
+     <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+         ${wheres.get('datatableorderby')}
+     </if>
+     <if test="wheres.get('limit')!=null and wheres.get('limit')!='' ">
+         ${wheres.get('limit')}
+     </if>
+  </select>
+  <select id="findByPage" parameterType="java.util.HashMap"  resultMap="BaseResultMap" useCache="false">
+     select * FROM  t_translate  <include refid="whereSql"></include>
+     <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+         ${wheres.get('datatableorderby')}
+     </if>
+  </select>
+  <sql id="whereSql">
+        <if test="wheres != null and wheres.size() > 0">
+            where 1 = 1
+            <foreach collection="wheres.entrySet()" item="value" index="key">
+                <bind name="valid" value="1"/>
+                <if test="key != null and key != '' and key.trim() != '' and ((key.endsWith('_isn') or key.endsWith('_isnn')) or (!key.endsWith('_isn') and !key.endsWith('_isnn') and value != null and value != ''))">
+                    <choose>
+                        <when test="key == 'id' or key.startsWith('id_')">and id</when>
+                        <when test="key == 'canonicalName' or key.startsWith('canonicalName_')">and canonical_name</when>
+                        <when test="key == 'translate' or key.startsWith('translate_')">and translate</when>
+                        <when test="key == 'fullName' or key.startsWith('fullName_')">and full_name</when>
+                        <when test="key == 'language' or key.startsWith('language_')">and language</when>
+                        <when test="key == 'lid' or key.startsWith('lid_')">and lid</when>
+                        <when test="key == 'treeId' or key.startsWith('treeId_')">and tree_id</when>
+                        <when test="key == 'fetched' or key.startsWith('fetched_')">and fetched</when>
+                        <when test="key == 'createTime' or key.startsWith('createTime_')">and create_time</when>
+                        <when test="key == 'lastModifyTime' or key.startsWith('lastModifyTime_')">and last_modify_time</when>
+                        <otherwise>
+                            <bind name="valid" value="0"/>
+                        </otherwise>
+                    </choose>
+                    <if test="valid == 1">
+                        <choose>
+                            <when test="key.endsWith('_eq')">= #{value}</when>
+                            <when test="key.endsWith('_ne')">&lt;&gt; #{value}</when>
+                            <when test="key.endsWith('_lt')">&lt; #{value}</when>
+                            <when test="key.endsWith('_gt')">&gt; #{value}</when>
+                            <when test="key.endsWith('_let')">&lt;= #{value}</when>
+                            <when test="key.endsWith('_get')">&gt;= #{value}</when>
+                            <when test="key.endsWith('_reg')">regexp #{value}</when>
+                            <when test="key.endsWith('_in')">in (${value})</when>
+                            <when test="key.endsWith('_nin')">not in (${value})</when>
+                            <when test="key.endsWith('_like')">like '%${value}%'</when>
+                            <when test="key.endsWith('_nlike')">not like '%${value}%'</when>
+                            <when test="key.endsWith('_isn')">is null</when>
+                            <when test="key.endsWith('_isnn')">is not null</when>
+                            <otherwise>= #{value}</otherwise>
+                        </choose>
+                    </if>
+                </if>
+            </foreach>
+        </if>
+  </sql>
+</mapper>

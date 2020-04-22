@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touchkiss.categoryoflife.life.mapper.LifeCategoryDaoM">
+    <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.life.bean.LifeCategory">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="snId" jdbcType="VARCHAR" property="snId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="parentId" jdbcType="INTEGER" property="parentId"/>
+        <result column="numChildren" jdbcType="INTEGER" property="numChildren"/>
+        <result column="estimation" jdbcType="INTEGER" property="estimation"/>
+        <result column="total" jdbcType="INTEGER" property="total"/>
+        <result column="nr_fossil" jdbcType="INTEGER" property="nrFossil"/>
+        <result column="nr_extant" jdbcType="INTEGER" property="nrExtant"/>
+        <result column="estimate_source" jdbcType="VARCHAR" property="estimateSource"/>
+        <result column="is_extinct" jdbcType="BIT" property="isExtinct"/>
+        <result column="has_preholocene" jdbcType="BIT" property="hasPreholocene"/>
+        <result column="has_modern" jdbcType="BIT" property="hasModern"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="fetched" jdbcType="BIT" property="fetched"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="last_modify_time" jdbcType="BIGINT" property="lastModifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,snId,name,type,parentId,numChildren,estimation,total,nr_fossil,nr_extant,estimate_source,is_extinct,has_preholocene,has_modern,image,url,fetched,create_time,last_modify_time
+  </sql>
+    <insert id="insert" parameterType="com.touchkiss.categoryoflife.life.bean.LifeCategory">
+        insert into t_life_category(<include refid="Base_Column_List"></include>)
+        values (
+        #{id,jdbcType=INTEGER},#{snId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{parentId,jdbcType=INTEGER},#{numChildren,jdbcType=INTEGER},#{estimation,jdbcType=INTEGER},#{total,jdbcType=INTEGER},#{nrFossil,jdbcType=INTEGER},#{nrExtant,jdbcType=INTEGER},#{estimateSource,jdbcType=VARCHAR},#{isExtinct,jdbcType=BIT},#{hasPreholocene,jdbcType=BIT},#{hasModern,jdbcType=BIT},#{image,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{fetched,jdbcType=BIT},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertWithoutId" parameterType="com.touchkiss.categoryoflife.life.bean.LifeCategory"
+            useGeneratedKeys="true" keyProperty="id">
+     insert into t_life_category(snId,name,type,parentId,numChildren,estimation,total,nr_fossil,nr_extant,estimate_source,is_extinct,has_preholocene,has_modern,image,url,fetched,create_time,last_modify_time)
+     values (
+     #{snId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{parentId,jdbcType=INTEGER},#{numChildren,jdbcType=INTEGER},#{estimation,jdbcType=INTEGER},#{total,jdbcType=INTEGER},#{nrFossil,jdbcType=INTEGER},#{nrExtant,jdbcType=INTEGER},#{estimateSource,jdbcType=VARCHAR},#{isExtinct,jdbcType=BIT},#{hasPreholocene,jdbcType=BIT},#{hasModern,jdbcType=BIT},#{image,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{fetched,jdbcType=BIT},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
+  </insert>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+     delete from t_life_category
+     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByMap">
+        delete from t_life_category
+        <include refid="whereSql"></include>
+    </delete>
+    <update id="updateById">
+     update t_life_category
+     set
+       snId = #{lifeCategory.snId,jdbcType=VARCHAR},
+       name = #{lifeCategory.name,jdbcType=VARCHAR},
+       type = #{lifeCategory.type,jdbcType=VARCHAR},
+       parentId = #{lifeCategory.parentId,jdbcType=INTEGER},
+       numChildren = #{lifeCategory.numChildren,jdbcType=INTEGER},
+       estimation = #{lifeCategory.estimation,jdbcType=INTEGER},
+       total = #{lifeCategory.total,jdbcType=INTEGER},
+       nr_fossil = #{lifeCategory.nrFossil,jdbcType=INTEGER},
+       nr_extant = #{lifeCategory.nrExtant,jdbcType=INTEGER},
+       estimate_source = #{lifeCategory.estimateSource,jdbcType=VARCHAR},
+       is_extinct = #{lifeCategory.isExtinct,jdbcType=BIT},
+       has_preholocene = #{lifeCategory.hasPreholocene,jdbcType=BIT},
+       has_modern = #{lifeCategory.hasModern,jdbcType=BIT},
+       image = #{lifeCategory.image,jdbcType=VARCHAR},
+       url = #{lifeCategory.url,jdbcType=VARCHAR},
+       fetched = #{lifeCategory.fetched,jdbcType=BIT},
+       create_time = #{lifeCategory.createTime,jdbcType=BIGINT},
+       last_modify_time = #{lifeCategory.lastModifyTime,jdbcType=BIGINT}
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateSelectiveById">
+        update t_life_category
+        set
+        <trim suffixOverrides=",">
+            <if test="lifeCategory.snId != null">
+                snId = #{lifeCategory.snId,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.name != null">
+                name = #{lifeCategory.name,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.type != null">
+                type = #{lifeCategory.type,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.parentId != null">
+                parentId = #{lifeCategory.parentId,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.numChildren != null">
+                numChildren = #{lifeCategory.numChildren,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.estimation != null">
+                estimation = #{lifeCategory.estimation,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.total != null">
+                total = #{lifeCategory.total,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.nrFossil != null">
+                nr_fossil = #{lifeCategory.nrFossil,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.nrExtant != null">
+                nr_extant = #{lifeCategory.nrExtant,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.estimateSource != null">
+                estimate_source = #{lifeCategory.estimateSource,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.isExtinct != null">
+                is_extinct = #{lifeCategory.isExtinct,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.hasPreholocene != null">
+                has_preholocene = #{lifeCategory.hasPreholocene,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.hasModern != null">
+                has_modern = #{lifeCategory.hasModern,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.image != null">
+                image = #{lifeCategory.image,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.url != null">
+                url = #{lifeCategory.url,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.fetched != null">
+                fetched = #{lifeCategory.fetched,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.createTime != null">
+                create_time = #{lifeCategory.createTime,jdbcType=BIGINT},
+            </if>
+            <if test="lifeCategory.lastModifyTime != null">
+                last_modify_time = #{lifeCategory.lastModifyTime,jdbcType=BIGINT}
+            </if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateSelectiveByMap">
+        update t_life_category
+        set
+        <trim suffixOverrides=",">
+            <if test="lifeCategory.snId != null">
+                snId = #{lifeCategory.snId,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.name != null">
+                name = #{lifeCategory.name,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.type != null">
+                type = #{lifeCategory.type,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.parentId != null">
+                parentId = #{lifeCategory.parentId,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.numChildren != null">
+                numChildren = #{lifeCategory.numChildren,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.estimation != null">
+                estimation = #{lifeCategory.estimation,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.total != null">
+                total = #{lifeCategory.total,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.nrFossil != null">
+                nr_fossil = #{lifeCategory.nrFossil,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.nrExtant != null">
+                nr_extant = #{lifeCategory.nrExtant,jdbcType=INTEGER},
+            </if>
+            <if test="lifeCategory.estimateSource != null">
+                estimate_source = #{lifeCategory.estimateSource,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.isExtinct != null">
+                is_extinct = #{lifeCategory.isExtinct,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.hasPreholocene != null">
+                has_preholocene = #{lifeCategory.hasPreholocene,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.hasModern != null">
+                has_modern = #{lifeCategory.hasModern,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.image != null">
+                image = #{lifeCategory.image,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.url != null">
+                url = #{lifeCategory.url,jdbcType=VARCHAR},
+            </if>
+            <if test="lifeCategory.fetched != null">
+                fetched = #{lifeCategory.fetched,jdbcType=BIT},
+            </if>
+            <if test="lifeCategory.createTime != null">
+                create_time = #{lifeCategory.createTime,jdbcType=BIGINT},
+            </if>
+            <if test="lifeCategory.lastModifyTime != null">
+                last_modify_time = #{lifeCategory.lastModifyTime,jdbcType=BIGINT}
+            </if>
+        </trim>
+        <include refid="whereSql"></include>
+    </update>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_life_category
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryLifeCategoryList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select * FROM t_life_category
+        <include refid="whereSql"></include>
+        <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+            ${wheres.get('datatableorderby')}
+        </if>
+        <if test="wheres.get('limit')!=null and wheres.get('limit')!='' ">
+            ${wheres.get('limit')}
+        </if>
+    </select>
+    <select id="findByPage" parameterType="java.util.HashMap" resultMap="BaseResultMap" useCache="false">
+        select * FROM t_life_category
+        <include refid="whereSql"></include>
+        <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+            ${wheres.get('datatableorderby')}
+        </if>
+    </select>
+    <sql id="whereSql">
+        <if test="wheres != null and wheres.size() > 0">
+            where 1 = 1
+            <foreach collection="wheres.entrySet()" item="value" index="key">
+                <bind name="valid" value="1"/>
+                <if test="key != null and key != '' and key.trim() != '' and ((key.endsWith('_isn') or key.endsWith('_isnn')) or (!key.endsWith('_isn') and !key.endsWith('_isnn') and value != null and value != ''))">
+                    <choose>
+                        <when test="key == 'id' or key.startsWith('id_')">and id</when>
+                        <when test="key == 'snId' or key.startsWith('snId_')">and snId</when>
+                        <when test="key == 'name' or key.startsWith('name_')">and name</when>
+                        <when test="key == 'type' or key.startsWith('type_')">and type</when>
+                        <when test="key == 'parentId' or key.startsWith('parentId_')">and parentId</when>
+                        <when test="key == 'numChildren' or key.startsWith('numChildren_')">and numChildren</when>
+                        <when test="key == 'estimation' or key.startsWith('estimation_')">and estimation</when>
+                        <when test="key == 'total' or key.startsWith('total_')">and total</when>
+                        <when test="key == 'nrFossil' or key.startsWith('nrFossil_')">and nr_fossil</when>
+                        <when test="key == 'nrExtant' or key.startsWith('nrExtant_')">and nr_extant</when>
+                        <when test="key == 'estimateSource' or key.startsWith('estimateSource_')">and estimate_source
+                        </when>
+                        <when test="key == 'isExtinct' or key.startsWith('isExtinct_')">and is_extinct</when>
+                        <when test="key == 'hasPreholocene' or key.startsWith('hasPreholocene_')">and has_preholocene
+                        </when>
+                        <when test="key == 'hasModern' or key.startsWith('hasModern_')">and has_modern</when>
+                        <when test="key == 'image' or key.startsWith('image_')">and image</when>
+                        <when test="key == 'url' or key.startsWith('url_')">and url</when>
+                        <when test="key == 'fetched' or key.startsWith('fetched_')">and fetched</when>
+                        <when test="key == 'createTime' or key.startsWith('createTime_')">and create_time</when>
+                        <when test="key == 'lastModifyTime' or key.startsWith('lastModifyTime_')">and last_modify_time
+                        </when>
+                        <otherwise>
+                            <bind name="valid" value="0"/>
+                        </otherwise>
+                    </choose>
+                    <if test="valid == 1">
+                        <choose>
+                            <when test="key.endsWith('_eq')">= #{value}</when>
+                            <when test="key.endsWith('_ne')">&lt;&gt; #{value}</when>
+                            <when test="key.endsWith('_lt')">&lt; #{value}</when>
+                            <when test="key.endsWith('_gt')">&gt; #{value}</when>
+                            <when test="key.endsWith('_let')">&lt;= #{value}</when>
+                            <when test="key.endsWith('_get')">&gt;= #{value}</when>
+                            <when test="key.endsWith('_reg')">regexp #{value}</when>
+                            <when test="key.endsWith('_in')">in (${value})</when>
+                            <when test="key.endsWith('_nin')">not in (${value})</when>
+                            <when test="key.endsWith('_like')">like '%${value}%'</when>
+                            <when test="key.endsWith('_nlike')">not like '%${value}%'</when>
+                            <when test="key.endsWith('_isn')">is null</when>
+                            <when test="key.endsWith('_isnn')">is not null</when>
+                            <otherwise>= #{value}</otherwise>
+                        </choose>
+                    </if>
+                </if>
+            </foreach>
+        </if>
+    </sql>
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touchkiss.categoryoflife.life.mapper.SourceDatabaseDaoM">
+  <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.life.bean.SourceDatabase">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="last_modify_time" jdbcType="BIGINT" property="lastModifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,short_name,full_name,create_time,last_modify_time
+  </sql>
+  <insert id="insert" parameterType="com.touchkiss.categoryoflife.life.bean.SourceDatabase">
+     insert into t_source_database(<include refid="Base_Column_List"></include>)
+     values (
+     #{id,jdbcType=INTEGER},#{shortName,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+  </insert>
+  <insert id="insertWithoutId" parameterType="com.touchkiss.categoryoflife.life.bean.SourceDatabase" useGeneratedKeys="true" keyProperty="id">
+     insert into t_source_database(short_name,full_name,create_time,last_modify_time)
+     values (
+     #{shortName,jdbcType=VARCHAR},#{fullName,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+     delete from t_source_database
+     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByMap">
+        delete from t_source_database
+        <include refid="whereSql"></include>
+    </delete>
+  <update id="updateById">
+     update t_source_database
+     set
+       short_name = #{sourceDatabase.shortName,jdbcType=VARCHAR},
+       full_name = #{sourceDatabase.fullName,jdbcType=VARCHAR},
+       create_time = #{sourceDatabase.createTime,jdbcType=BIGINT},
+       last_modify_time = #{sourceDatabase.lastModifyTime,jdbcType=BIGINT}
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSelectiveById">
+     update t_source_database
+     set
+        <trim suffixOverrides=",">
+     <if test="sourceDatabase.shortName != null">
+       short_name = #{sourceDatabase.shortName,jdbcType=VARCHAR},
+     </if>
+     <if test="sourceDatabase.fullName != null">
+       full_name = #{sourceDatabase.fullName,jdbcType=VARCHAR},
+     </if>
+     <if test="sourceDatabase.createTime != null">
+       create_time = #{sourceDatabase.createTime,jdbcType=BIGINT},
+     </if>
+     <if test="sourceDatabase.lastModifyTime != null">
+       last_modify_time = #{sourceDatabase.lastModifyTime,jdbcType=BIGINT}
+     </if>
+        </trim>
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSelectiveByMap">
+     update t_source_database
+     set
+        <trim suffixOverrides=",">
+     <if test="sourceDatabase.shortName != null">
+       short_name = #{sourceDatabase.shortName,jdbcType=VARCHAR},
+     </if>
+     <if test="sourceDatabase.fullName != null">
+       full_name = #{sourceDatabase.fullName,jdbcType=VARCHAR},
+     </if>
+     <if test="sourceDatabase.createTime != null">
+       create_time = #{sourceDatabase.createTime,jdbcType=BIGINT},
+     </if>
+     <if test="sourceDatabase.lastModifyTime != null">
+       last_modify_time = #{sourceDatabase.lastModifyTime,jdbcType=BIGINT}
+     </if>
+        </trim>
+        <include refid="whereSql"></include>
+  </update>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     select
+     <include refid="Base_Column_List" />
+     from t_source_database
+     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="querySourceDatabaseList" parameterType="java.util.HashMap"  resultMap="BaseResultMap">
+     select * FROM  t_source_database  <include refid="whereSql"></include>
+     <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+         ${wheres.get('datatableorderby')}
+     </if>
+     <if test="wheres.get('limit')!=null and wheres.get('limit')!='' ">
+         ${wheres.get('limit')}
+     </if>
+  </select>
+  <select id="findByPage" parameterType="java.util.HashMap"  resultMap="BaseResultMap" useCache="false">
+     select * FROM  t_source_database  <include refid="whereSql"></include>
+     <if test="wheres.get('datatableorderby')!=null and wheres.get('datatableorderby')!='' ">
+         ${wheres.get('datatableorderby')}
+     </if>
+  </select>
+  <sql id="whereSql">
+        <if test="wheres != null and wheres.size() > 0">
+            where 1 = 1
+            <foreach collection="wheres.entrySet()" item="value" index="key">
+                <bind name="valid" value="1"/>
+                <if test="key != null and key != '' and key.trim() != '' and ((key.endsWith('_isn') or key.endsWith('_isnn')) or (!key.endsWith('_isn') and !key.endsWith('_isnn') and value != null and value != ''))">
+                    <choose>
+                        <when test="key == 'id' or key.startsWith('id_')">and id</when>
+                        <when test="key == 'shortName' or key.startsWith('shortName_')">and short_name</when>
+                        <when test="key == 'fullName' or key.startsWith('fullName_')">and full_name</when>
+                        <when test="key == 'createTime' or key.startsWith('createTime_')">and create_time</when>
+                        <when test="key == 'lastModifyTime' or key.startsWith('lastModifyTime_')">and last_modify_time</when>
+                        <otherwise>
+                            <bind name="valid" value="0"/>
+                        </otherwise>
+                    </choose>
+                    <if test="valid == 1">
+                        <choose>
+                            <when test="key.endsWith('_eq')">= #{value}</when>
+                            <when test="key.endsWith('_ne')">&lt;&gt; #{value}</when>
+                            <when test="key.endsWith('_lt')">&lt; #{value}</when>
+                            <when test="key.endsWith('_gt')">&gt; #{value}</when>
+                            <when test="key.endsWith('_let')">&lt;= #{value}</when>
+                            <when test="key.endsWith('_get')">&gt;= #{value}</when>
+                            <when test="key.endsWith('_reg')">regexp #{value}</when>
+                            <when test="key.endsWith('_in')">in (${value})</when>
+                            <when test="key.endsWith('_nin')">not in (${value})</when>
+                            <when test="key.endsWith('_like')">like '%${value}%'</when>
+                            <when test="key.endsWith('_nlike')">not like '%${value}%'</when>
+                            <when test="key.endsWith('_isn')">is null</when>
+                            <when test="key.endsWith('_isnn')">is not null</when>
+                            <otherwise>= #{value}</otherwise>
+                        </choose>
+                    </if>
+                </if>
+            </foreach>
+        </if>
+  </sql>
+</mapper>
