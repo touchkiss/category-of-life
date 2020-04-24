@@ -194,7 +194,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                         .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
                         .forEach(entry -> {
                             String key = entry.getKey();
-                            String value = entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue());
+                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
                             if (!StringUtils.isAnyBlank(key, value)) {
                                 if (value.startsWith("[") && value.endsWith("]")) {
                                     BoolQueryBuilder child = addShould(key, value);
@@ -213,7 +213,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                         .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
                         .forEach(entry -> {
                             String key = entry.getKey();
-                            String value = entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue());
+                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
                             if (!StringUtils.isAnyBlank(key, value)) {
                                 if (value.startsWith("[") && value.endsWith("]")) {
                                     BoolQueryBuilder child = addShould(key, value);
@@ -232,7 +232,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                         .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
                         .forEach(entry -> {
                             String key = entry.getKey();
-                            String value = entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue());
+                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
                             if (!StringUtils.isAnyBlank(key, value)) {
                                 if (value.startsWith("[") && value.endsWith("]")) {
                                     BoolQueryBuilder child = addShould(key, value);
@@ -252,7 +252,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                 search.query(QueryBuilders.simpleQueryStringQuery(simpleQueryString));
             }
             search.explain(false);
-            if (orderBy != null && !"".equals(orderBy)) {
+            if (StringUtils.isNotBlank(orderBy)) {
                 search.sort(new FieldSortBuilder(orderBy).order(isAsc ? SortOrder.ASC : SortOrder.DESC));
             }
             if (fields != null && fields.length > 0) {
@@ -289,7 +289,7 @@ public class BaseRepositoryImpl implements BaseRepository {
         }.getType());
         values.stream()
                 .filter(v -> !v.matches(IGNORE_REGEX))
-                .forEach(v -> child.should(QueryBuilders.matchQuery(key, value)));
+                .forEach(v -> child.should(QueryBuilders.matchQuery(key, v)));
         return child;
     }
 
@@ -317,9 +317,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                 return null;
             }
             MultiGetRequest multiGetRequest = new MultiGetRequest();
-            Arrays.stream(ids).forEach(id -> {
-                multiGetRequest.add(index, id.toString());
-            });
+            Arrays.stream(ids).forEach(id -> multiGetRequest.add(index, id.toString()));
             return restHighLevelClient.mget(multiGetRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             LOGGER.info("es获取数据---出错");
@@ -342,9 +340,7 @@ public class BaseRepositoryImpl implements BaseRepository {
             BulkRequest bulkRequest = new BulkRequest();
             Arrays.stream(ids)
                     .filter(StringUtil::notNullOrBlank)
-                    .map(id -> {
-                        return new DeleteRequest(index, id.toString());
-                    })
+                    .map(id -> new DeleteRequest(index, id.toString()))
                     .forEach(bulkRequest::add);
             return restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
@@ -409,9 +405,7 @@ public class BaseRepositoryImpl implements BaseRepository {
                     .filter(entry -> fieldNames.contains(entry.getKey()))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             Arrays.stream(ids).filter(StringUtil::notNullOrBlank)
-                    .map(id -> {
-                        return new UpdateRequest(index, id.toString()).doc(finalUpdates, XContentType.JSON);
-                    })
+                    .map(id -> new UpdateRequest(index, id.toString()).doc(finalUpdates, XContentType.JSON))
                     .forEach(bulkRequest::add);
             return restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {

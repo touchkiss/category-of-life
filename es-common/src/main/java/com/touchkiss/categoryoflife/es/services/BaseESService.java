@@ -25,7 +25,7 @@ public interface BaseESService<T> {
      * @param ids
      * @return
      */
-    boolean delete(String... ids);
+    boolean delete(Object... ids);
 
     /**
      * 根据id获取一条记录
@@ -33,7 +33,7 @@ public interface BaseESService<T> {
      * @param id
      * @return
      */
-    T getOne(String id);
+    T getOne(Object id);
 
     /**
      * 根据id数组获取多条记录
@@ -42,7 +42,7 @@ public interface BaseESService<T> {
      * @param ids
      * @return
      */
-    List<T> getMulti(String[] fields, String... ids);
+    List<T> getMulti(String[] fields, Object... ids);
 
     /**
      * 根据条件查询page

@@ -1,6 +1,5 @@
 package com.touchkiss.categoryoflife.es.annotations;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

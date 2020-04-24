@@ -1,5 +1,6 @@
 package com.touchkiss.categoryoflife.es.services;
 
+import com.touchkiss.categoryoflife.es.annotations.EsField;
 import com.touchkiss.categoryoflife.es.bean.ESPage;
 import com.touchkiss.categoryoflife.es.repositories.BaseRepository;
 import com.touchkiss.categoryoflife.es.utils.EsUtil;
@@ -35,7 +36,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
     private BaseRepository baseRepository;
 
     @Override
-    public List<T> getMulti(String[] fields, String... ids) {
+    public List<T> getMulti(String[] fields, Object... ids) {
         try {
             MultiGetResponse mget = baseRepository.mget(getTClass(), ids);
             if (ArrayUtils.isEmpty(fields)) {
@@ -70,8 +71,8 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
             datatableorderby = datatableorderby.contains(",") ? datatableorderby.substring(0, datatableorderby.indexOf(",")) : datatableorderby;
             String orderby = (datatableorderby.contains("order by") ? datatableorderby.substring(datatableorderby.indexOf("order by") + 8).trim() : "").trim();
             orderby = StringUtils.isBlank(orderby) ? "" : orderby.substring(0, orderby.indexOf(" "));
-            SearchResponse search = baseRepository.search(EsUtil.getEsTableAnnotation(getTClass()).index(), orderby, datatableorderby.contains("asc"), fields, null, filterMap(must), filterMap(should), filterMap(must_not), null, from, pageSize);
-            return new ESPage<T>(search.getHits().getTotalHits()==null?null:search.getHits().getTotalHits().value, Arrays.stream(search.getHits().getHits())
+            SearchResponse search = baseRepository.search(EsUtil.getEsTableAnnotation(getTClass()).index(), analyseOrderby(orderby), datatableorderby.contains("asc"), fields, null, filterMap(must), filterMap(should), filterMap(must_not), null, from, pageSize);
+            return new ESPage<T>(search.getHits().getTotalHits().value, Arrays.stream(search.getHits().getHits())
                     .map(hit -> MapUtil.mapToObject(hit.getSourceAsMap(), getTClass()))
                     .collect(Collectors.toList()));
         } catch (Exception e) {
@@ -116,7 +117,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
     }
 
     @Override
-    public boolean delete(String... ids) {
+    public boolean delete(Object... ids) {
         try {
             return Arrays.stream(baseRepository.mdelete(getTClass(), ids).getItems())
                     .map(BulkItemResponse::getResponse)
@@ -130,7 +131,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
     }
 
     @Override
-    public T getOne(String id) {
+    public T getOne(Object id) {
         try {
             Class<T> tClass = getTClass();
             return MapUtil.mapToObject(baseRepository.get(tClass, id).getSource(), tClass);
@@ -153,5 +154,23 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
             Set<String> fieldNames = Arrays.stream(getTClass().getDeclaredFields()).map(Field::getName).collect(Collectors.toSet());
             return map.entrySet().stream().filter(stringObjectEntry -> fieldNames.contains(stringObjectEntry.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
+    }
+
+    String analyseOrderby(String orderby) {
+        try {
+            Field declaredField = getTClass().getDeclaredField(orderby);
+            if (declaredField.isAnnotationPresent(EsField.class)) {
+                if (declaredField.getType().getName().equals("java.lang.String")) {
+                    EsField esField = declaredField.getAnnotation(EsField.class);
+                    if (esField.type().equals(EsField.FieldType.Auto) || esField.type().equals(EsField.FieldType.Text)) {
+                        return null;
+                    }
+                }
+                return orderby;
+            }
+        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+        }
+        return null;
     }
 }

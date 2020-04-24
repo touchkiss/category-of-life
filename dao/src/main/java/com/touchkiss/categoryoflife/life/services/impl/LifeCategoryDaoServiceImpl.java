@@ -96,6 +96,6 @@ public class LifeCategoryDaoServiceImpl implements LifeCategoryDaoService {
         if (StringUtils.isBlank(ids)) {
             return null;
         }
-        return lifeCategoryDaoM.queryTree(Arrays.asList(ids.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList()));
+        return lifeCategoryDaoM.queryTree(Arrays.stream(ids.split(",")).map(Integer::parseInt).collect(Collectors.toList()));
     }
 }
