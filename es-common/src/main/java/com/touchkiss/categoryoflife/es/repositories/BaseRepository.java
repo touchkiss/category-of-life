@@ -8,6 +8,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public interface BaseRepository {
     BulkResponse msave(Object... obj);
 
     SearchResponse search(String indexs, String orderBy, boolean isAsc, String[] fields, String simpleQueryString, Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not, Map<String, List<Object>> ranges, int from, int pageSize);
+
+    CountResponse count(String indexs, String simpleQueryString, Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not);
 
     GetResponse get(Class clazz, Object id);
 

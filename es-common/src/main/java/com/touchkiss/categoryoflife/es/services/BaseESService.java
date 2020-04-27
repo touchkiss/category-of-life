@@ -58,6 +58,16 @@ public interface BaseESService<T> {
     ESPage<T> search(String[] fields, Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not, int pageNo, int pageSize);
 
     /**
+     * 根据条件查询count
+     *
+     * @param must
+     * @param should
+     * @param must_not
+     * @return
+     */
+    long count(Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not);
+
+    /**
      * 按字段部分更新
      *
      * @param updates

@@ -82,6 +82,16 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
     }
 
     @Override
+    public long count(Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not) {
+        try {
+            return baseRepository.count(EsUtil.getEsTableAnnotation(getTClass()).index(),null,must,should,must_not).getCount();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0L;
+    }
+
+    @Override
     public boolean batchUpdate(Map<String, Object> updates, Object... ids) {
         if (ArrayUtils.isEmpty(ids)) {
             return false;

@@ -29,6 +29,8 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
@@ -177,6 +179,70 @@ public class BaseRepositoryImpl implements BaseRepository {
         return request;
     }
 
+    BoolQueryBuilder buildQueryBuilder(Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not) {
+        BoolQueryBuilder boolquery = QueryBuilders.boolQuery();
+        HighlightBuilder highlight = new HighlightBuilder();
+        boolean mustNotEmpty = !CollectionUtils.isEmpty(must), shouldNotEmpty = !CollectionUtils.isEmpty(should), must_notNotEmpty = !CollectionUtils.isEmpty(must_not);
+        if (mustNotEmpty) {
+            must.entrySet().stream()
+                    .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
+                    .forEach(entry -> {
+                        String key = entry.getKey();
+                        String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
+                        if (!StringUtils.isAnyBlank(key, value)) {
+                            if (value.startsWith("[") && value.endsWith("]")) {
+                                BoolQueryBuilder child = addShould(key, value);
+                                boolquery.must(child);
+                            } else {
+                                if (!value.matches(IGNORE_REGEX)) {
+                                    boolquery.must(QueryBuilders.matchQuery(key, value));
+                                }
+                            }
+                        }
+                        highlight.field(key);
+                    });
+        }
+        if (shouldNotEmpty) {
+            should.entrySet().stream()
+                    .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
+                    .forEach(entry -> {
+                        String key = entry.getKey();
+                        String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
+                        if (!StringUtils.isAnyBlank(key, value)) {
+                            if (value.startsWith("[") && value.endsWith("]")) {
+                                BoolQueryBuilder child = addShould(key, value);
+                                boolquery.should(child);
+                            } else {
+                                if (!value.matches(IGNORE_REGEX)) {
+                                    boolquery.should(QueryBuilders.matchQuery(key, value));
+                                }
+                            }
+                        }
+                        highlight.field(key);
+                    });
+        }
+        if (must_notNotEmpty) {
+            must_not.entrySet().stream()
+                    .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
+                    .forEach(entry -> {
+                        String key = entry.getKey();
+                        String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
+                        if (!StringUtils.isAnyBlank(key, value)) {
+                            if (value.startsWith("[") && value.endsWith("]")) {
+                                BoolQueryBuilder child = addShould(key, value);
+                                boolquery.mustNot(child);
+                            } else {
+                                if (!value.matches(IGNORE_REGEX)) {
+                                    boolquery.mustNot(QueryBuilders.matchQuery(key, value));
+                                }
+                            }
+                        }
+                        highlight.field(key);
+                    });
+        }
+        return boolquery;
+    }
+
     @Override
     public SearchResponse search(String indexs, String orderBy, boolean isAsc, String[] fields, String simpleQueryString, Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not, Map<String, List<Object>> ranges, int from, int pageSize) {
         try {
@@ -186,67 +252,8 @@ public class BaseRepositoryImpl implements BaseRepository {
             SearchSourceBuilder search = new SearchSourceBuilder()
                     .size(pageSize)
                     .from(from);
-            BoolQueryBuilder boolquery = QueryBuilders.boolQuery();
-            HighlightBuilder highlight = new HighlightBuilder();
-            boolean mustNotEmpty = !CollectionUtils.isEmpty(must), shouldNotEmpty = !CollectionUtils.isEmpty(should), must_notNotEmpty = !CollectionUtils.isEmpty(must_not);
-            if (mustNotEmpty) {
-                must.entrySet().stream()
-                        .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
-                        .forEach(entry -> {
-                            String key = entry.getKey();
-                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
-                            if (!StringUtils.isAnyBlank(key, value)) {
-                                if (value.startsWith("[") && value.endsWith("]")) {
-                                    BoolQueryBuilder child = addShould(key, value);
-                                    boolquery.must(child);
-                                } else {
-                                    if (!value.matches(IGNORE_REGEX)) {
-                                        boolquery.must(QueryBuilders.matchQuery(key, value));
-                                    }
-                                }
-                            }
-                            highlight.field(key);
-                        });
-            }
-            if (shouldNotEmpty) {
-                should.entrySet().stream()
-                        .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
-                        .forEach(entry -> {
-                            String key = entry.getKey();
-                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
-                            if (!StringUtils.isAnyBlank(key, value)) {
-                                if (value.startsWith("[") && value.endsWith("]")) {
-                                    BoolQueryBuilder child = addShould(key, value);
-                                    boolquery.should(child);
-                                } else {
-                                    if (!value.matches(IGNORE_REGEX)) {
-                                        boolquery.should(QueryBuilders.matchQuery(key, value));
-                                    }
-                                }
-                            }
-                            highlight.field(key);
-                        });
-            }
-            if (must_notNotEmpty) {
-                must_not.entrySet().stream()
-                        .filter(entry -> !entry.getKey().matches(IGNORE_REGEX))
-                        .forEach(entry -> {
-                            String key = entry.getKey();
-                            String value = (entry.getValue() instanceof String ? entry.getValue().toString() : GsonUtil.toJson(entry.getValue())).trim();
-                            if (!StringUtils.isAnyBlank(key, value)) {
-                                if (value.startsWith("[") && value.endsWith("]")) {
-                                    BoolQueryBuilder child = addShould(key, value);
-                                    boolquery.mustNot(child);
-                                } else {
-                                    if (!value.matches(IGNORE_REGEX)) {
-                                        boolquery.mustNot(QueryBuilders.matchQuery(key, value));
-                                    }
-                                }
-                            }
-                            highlight.field(key);
-                        });
-            }
-            if (mustNotEmpty || must_notNotEmpty || shouldNotEmpty) {
+            BoolQueryBuilder boolquery = buildQueryBuilder(must, should, must_not);
+            if (!CollectionUtils.isEmpty(must) || !CollectionUtils.isEmpty(should) || !CollectionUtils.isEmpty(must_not)) {
                 search.query(boolquery);
             } else if (StringUtils.isNotBlank(simpleQueryString)) {
                 search.query(QueryBuilders.simpleQueryStringQuery(simpleQueryString));
@@ -278,6 +285,32 @@ public class BaseRepositoryImpl implements BaseRepository {
             LOGGER.info("ranges:", ranges);
             LOGGER.info("from:", from);
             LOGGER.info("pageSize:", pageSize);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public CountResponse count(String indexs, String simpleQueryString, Map<String, Object> must, Map<String, Object> should, Map<String, Object> must_not) {
+        try {
+            if (StringUtils.isBlank(indexs)) {
+                indexs = "_all";
+            }
+            CountRequest countRequest = new CountRequest(indexs.split(","));
+            BoolQueryBuilder boolquery = buildQueryBuilder(must, should, must_not);
+            if (!CollectionUtils.isEmpty(must) || !CollectionUtils.isEmpty(should) || !CollectionUtils.isEmpty(must_not)) {
+                countRequest.query(boolquery);
+            } else if (StringUtils.isNotBlank(simpleQueryString)) {
+                countRequest.query(QueryBuilders.simpleQueryStringQuery(simpleQueryString));
+            }
+            return restHighLevelClient.count(countRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            LOGGER.info("es查询数据数量--出错");
+            LOGGER.info("indexs:", indexs);
+            LOGGER.info("simpleQueryString:", simpleQueryString);
+            LOGGER.info("must:", must);
+            LOGGER.info("should:", should);
+            LOGGER.info("must_not:", must_not);
             e.printStackTrace();
         }
         return null;
