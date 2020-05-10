@@ -134,7 +134,7 @@ public class CreateModelSenior {
             myFile.println(LINE_SEPERATOR);
             myFile.println("import lombok.Data;");
         }
-        if (types.stream().anyMatch(type -> "date".equals(type))) {
+        if (types.stream().anyMatch("date"::equals)) {
             myFile.println(LINE_SEPERATOR);
             myFile.println("import java.sql.Date;");
         }
@@ -162,14 +162,14 @@ public class CreateModelSenior {
             comment = comments.get(i);
             myFile.println("	private " + Jtype(type) + " " + colName + "; //" + comment);
             if (!useLombok) {
-                stringBuilder.append("	public " + Jtype(type) + " get" + colNameUp + "() { \r" + "\n");
-                stringBuilder.append("		return this." + colName + ";\r" + "\n");
-                stringBuilder.append("	}\r" + "\n");
-                stringBuilder.append(LINE_SEPERATOR + "\n");
-                stringBuilder.append("	public void set" + colNameUp + "(" + Jtype(type) + " " + colName + ") { \r" + "\n");
-                stringBuilder.append("		this." + colName + "=" + colName + ";\r" + "\n");
-                stringBuilder.append("	}\r" + "\n");
-                stringBuilder.append(LINE_SEPERATOR + "\n");
+                stringBuilder.append("	public ").append(Jtype(type)).append(" get").append(colNameUp).append("() { \r").append("\n")
+                        .append("		return this." + colName + ";\r" + "\n")
+                        .append("	}\r" + "\n")
+                        .append(LINE_SEPERATOR + "\n")
+                        .append("	public void set" + colNameUp + "(" + Jtype(type) + " " + colName + ") { \r" + "\n")
+                        .append("		this." + colName + "=" + colName + ";\r" + "\n")
+                        .append("	}\r" + "\n")
+                        .append(LINE_SEPERATOR + "\n");
             }
         }
         if (!useLombok) {
@@ -183,7 +183,7 @@ public class CreateModelSenior {
     //dao层  ptype主键类型 pname主键名称
     private void createDao(String path, String bean, String module, String ptype, String pname, String autoIncrementColumn) throws Exception {
         boolean audoIncrement = false;
-        if (autoIncrementColumn != null && !autoIncrementColumn.trim().equals("")) {
+        if (autoIncrementColumn != null && !"".equals(autoIncrementColumn.trim())) {
             audoIncrement = true;
             autoIncrementColumn = autoIncrementColumn.substring(0, 1).toUpperCase() + autoIncrementColumn.substring(1);
         }
@@ -242,7 +242,7 @@ public class CreateModelSenior {
     //service
     private void createService(String path, String bean, String module, String ptype, String pname, String autoIncrementColumn) throws Exception {
         boolean audoIncrement = false;
-        if (autoIncrementColumn != null && !autoIncrementColumn.trim().equals("")) {
+        if (autoIncrementColumn != null && !"".equals(autoIncrementColumn.trim())) {
             audoIncrement = true;
             autoIncrementColumn = autoIncrementColumn.substring(0, 1).toUpperCase() + autoIncrementColumn.substring(1);
         }
@@ -294,7 +294,7 @@ public class CreateModelSenior {
     private void createServiceImpl(String path, String bean, String module, String ptype, List<String> fields, String autoIncrementColumn) throws Exception {
         boolean audoIncrement = false;
         String pname = fields.get(0);
-        if (autoIncrementColumn != null && !autoIncrementColumn.trim().equals("")) {
+        if (autoIncrementColumn != null && !"".equals(autoIncrementColumn.trim())) {
             audoIncrement = true;
             autoIncrementColumn = autoIncrementColumn.substring(0, 1).toUpperCase() + autoIncrementColumn.substring(1);
         }
@@ -307,10 +307,10 @@ public class CreateModelSenior {
             myFilePath.createNewFile();
         }
         boolean hasCreatetime = false, hasLastModifyTime = false;
-        if (fields.stream().anyMatch(field -> "createTime".equals(field))) {
+        if (fields.stream().anyMatch("createTime"::equals)) {
             hasCreatetime = true;
         }
-        if (fields.stream().anyMatch(field -> "lastModifyTime".equals(field))) {
+        if (fields.stream().anyMatch("lastModifyTime"::equals)) {
             hasLastModifyTime = true;
         }
         String colNameUp = pname.substring(0, 1).toUpperCase() + pname.substring(1);
@@ -423,7 +423,7 @@ public class CreateModelSenior {
     private void createRestController(String path, String bean, String module, String ptype, List<String> fields, String requestPath, String autoIncrementColumn) throws Exception {
         boolean audoIncrement = false;
         String pname = fields.get(0);
-        if (autoIncrementColumn != null && !autoIncrementColumn.trim().equals("")) {
+        if (autoIncrementColumn != null && !"".equals(autoIncrementColumn.trim())) {
             audoIncrement = true;
             autoIncrementColumn = autoIncrementColumn.substring(0, 1).toUpperCase() + autoIncrementColumn.substring(1);
         }
@@ -983,7 +983,7 @@ public class CreateModelSenior {
     private void appsql(List<String> columns, List<String> fields, List<String> types, PrintWriter myFile, String bean, String module, String tab, String autoIncrementColumn) {
         boolean audoIncrement = false;
         String pname = fields.get(0);
-        if (autoIncrementColumn != null && !autoIncrementColumn.trim().equals("")) {
+        if (autoIncrementColumn != null && !"".equals(autoIncrementColumn.trim())) {
             audoIncrement = true;
             autoIncrementColumn = autoIncrementColumn.substring(0, 1).toUpperCase() + autoIncrementColumn.substring(1);
         }
@@ -1010,7 +1010,7 @@ public class CreateModelSenior {
         myFile.println("     values (");
         StringBuffer zstr = new StringBuffer();
         for (int i = 0; i < size; i++) {
-            zstr.append("#{" + fields.get(i) + ",jdbcType=" + Xtype(types.get(i)) + "}");
+            zstr.append("#{").append(fields.get(i)).append(",jdbcType=").append(Xtype(types.get(i))).append("}");
             if (i != size - 1) {
                 zstr.append(",");
             }
@@ -1023,7 +1023,7 @@ public class CreateModelSenior {
             myFile.println("     values (");
             zstr = new StringBuffer();
             for (int i = 1; i < size; i++) {
-                zstr.append("#{" + fields.get(i) + ",jdbcType=" + Xtype(types.get(i)) + "}");
+                zstr.append("#{").append(fields.get(i)).append(",jdbcType=").append(Xtype(types.get(i))).append("}");
                 if (i != size - 1) {
                     zstr.append(",");
                 }
@@ -1161,22 +1161,22 @@ public class CreateModelSenior {
 
     //根据数据类型返回在java中的类型
     private String Jtype(String type) {
-        if (type.indexOf(type_char) > -1 || type.indexOf(type_text) > -1) {
+        if (type.contains(type_char) || type.contains(type_text)) {
             return "String";
-        } else if (type.indexOf(type_bigint) > -1) {
+        } else if (type.contains(type_bigint)) {
             return "Long";
-        } else if (type.indexOf(type_int) > -1) {
+        } else if (type.contains(type_int)) {
             return "Integer";
-        } else if (type.indexOf(type_decimal) > -1) {
+        } else if (type.contains(type_decimal)) {
             int scale = Integer.parseInt(type.substring(type.indexOf(",") + 1, type.indexOf(")")));
             if (scale > 0) {
                 return "Double";
             } else {
                 return "Long";
             }
-        } else if (type.indexOf(type_bit) > -1) {
+        } else if (type.contains(type_bit)) {
             return "Boolean";
-        } else if (type.indexOf(type_date) > -1) {
+        } else if (type.contains(type_date)) {
             return "Date";
         } else {
             type = type.substring(0, type.contains("(") ? type.indexOf("(") : type.length());
@@ -1186,19 +1186,19 @@ public class CreateModelSenior {
 
     //根据数据类型返回在xml文件中的类型
     private String Xtype(String type) {
-        if (type.indexOf(type_char) > -1) {
+        if (type.contains(type_char)) {
             return "VARCHAR";
-        } else if (type.indexOf(type_text) > -1) {
+        } else if (type.contains(type_text)) {
             return "LONGVARCHAR";
-        } else if (type.indexOf(type_bigint) > -1) {
+        } else if (type.contains(type_bigint)) {
             return "BIGINT";
-        } else if (type.indexOf(type_int) > -1) {
+        } else if (type.contains(type_int)) {
             return "INTEGER";
-        } else if (type.indexOf(type_decimal) > -1) {
+        } else if (type.contains(type_decimal)) {
             return "DECIMAL";
-        } else if (type.indexOf(type_bit) > -1) {
+        } else if (type.contains(type_bit)) {
             return "BIT";
-        } else if (type.indexOf(type_date) > -1) {
+        } else if (type.contains(type_date)) {
             return "DATE";
         } else {
             type = type.substring(0, type.contains("(") ? type.indexOf("(") : type.length());
