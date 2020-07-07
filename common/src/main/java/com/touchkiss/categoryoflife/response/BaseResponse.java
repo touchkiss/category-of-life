@@ -8,6 +8,7 @@ package com.touchkiss.categoryoflife.response;
 public class BaseResponse<T> {
     private int code;
     private String msg;
+    private T data;
 
     public int getCode() {
         return code;
@@ -23,5 +24,13 @@ public class BaseResponse<T> {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

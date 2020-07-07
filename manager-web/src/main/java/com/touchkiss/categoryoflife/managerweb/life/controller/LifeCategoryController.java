@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("life")
-public class LifeCategoryController extends BaseController {
+public class LifeCategoryController implements BaseController {
     @Autowired
     private LifeCategoryDaoService lifeCategoryDaoService;
 

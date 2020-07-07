@@ -6,7 +6,6 @@ import com.touchkiss.categoryoflife.spider.translate.bean.response.BiodinfoTrans
 import com.touchkiss.categoryoflife.spider.translate.services.BiodinfoTranslateSpiderService;
 import com.touchkiss.categoryoflife.translate.bean.Translate;
 import com.touchkiss.categoryoflife.translate.services.TranslateDaoService;
-import com.touchkiss.categoryoflife.utils.AHttpUtil;
 import com.touchkiss.categoryoflife.utils.GsonUtil;
 import com.touchkiss.categoryoflife.utils.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -29,8 +28,6 @@ public class BiodinfoTranslateSpiderServiceImpl implements BiodinfoTranslateSpid
     private BiodinfoTranslateConvertor biodinfoTranslateConvertor;
     @Autowired
     private TranslateDaoService translateDaoService;
-    @Autowired
-    private AHttpUtil aHttpUtil;
 
     @Override
     public boolean fetchTranslate(String id, String treeid) throws IOException {
@@ -39,7 +36,7 @@ public class BiodinfoTranslateSpiderServiceImpl implements BiodinfoTranslateSpid
         if (notBlank) {
             url += "&id=" + id;
         }
-        String response = aHttpUtil.post(url,"");
+        String response = HttpUtil.post(url, "");
         BiodinfoTranslateResponse biodinfoTranslateResponse = GsonUtil.fromJson(response, BiodinfoTranslateResponse.class);
         if (biodinfoTranslateResponse != null) {
             biodinfoTranslateResponse.forEach(biodinfoTranslateBO -> {
@@ -57,9 +54,7 @@ public class BiodinfoTranslateSpiderServiceImpl implements BiodinfoTranslateSpid
                 put("lid", id);
             }});
             if (!CollectionUtils.isEmpty(lid)) {
-                Translate translate = lid.get(0);
-                translate.setFetched(true);
-                translateDaoService.updateById(translate, translate.getId());
+                lid.stream().peek(translate -> translate.setFetched(true)).forEach(translate -> translateDaoService.updateById(translate, translate.getId()));
             }
         }
         return true;
@@ -71,6 +66,7 @@ public class BiodinfoTranslateSpiderServiceImpl implements BiodinfoTranslateSpid
             put("fetched", "0");
             put("limit", "limit 10");
         }});
+//        list.stream().map(translate -> new TranslateSpiderThread(this, translate.getLid(), translate.getTreeId())).forEach(ThreadPoolExecutors.pool::execute);
         list.forEach(translate -> {
             try {
                 fetchTranslate(translate.getLid(), translate.getTreeId());
@@ -80,3 +76,4 @@ public class BiodinfoTranslateSpiderServiceImpl implements BiodinfoTranslateSpid
         });
     }
 }
+

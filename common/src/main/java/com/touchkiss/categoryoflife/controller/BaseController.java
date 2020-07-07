@@ -11,18 +11,18 @@ import java.util.Map;
  *
  * @author Touchkiss
  */
-public abstract class BaseController {
-    public HashMap<String, String> parameterMap(HttpServletRequest request) {
+public interface BaseController {
+    default HashMap<String, String> parameterMap(HttpServletRequest request) {
 
         Map<String, String[]> prmap = request.getParameterMap();
-        HashMap<String, String> parameterMap = new HashMap();
+        HashMap<String, String> parameterMap = new HashMap<>();
         String key;
-        String value[];
+        String[] value;
 
 
         for (Map.Entry<String, String[]> entry : prmap.entrySet()) {
             key = entry.getKey();
-            if (!("p".equals(key) && "pagesize".equals(key) && "ordering".equals(key))) {
+            if (!StringUtils.equalsAny(key, "p", "pagesize", "ordering")) {
                 value = entry.getValue();
                 parameterMap.put(key, value == null ? null : String.join(",", value));
             }

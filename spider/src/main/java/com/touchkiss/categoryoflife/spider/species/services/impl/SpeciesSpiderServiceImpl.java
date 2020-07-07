@@ -11,8 +11,8 @@ import com.touchkiss.categoryoflife.spider.species.bean.convertor.*;
 import com.touchkiss.categoryoflife.spider.species.bean.response.SpeciesResponse;
 import com.touchkiss.categoryoflife.spider.species.services.SpeciesSpiderService;
 import com.touchkiss.categoryoflife.spider.species.services.SpeciesSpiderThread;
-import com.touchkiss.categoryoflife.utils.AHttpUtil;
 import com.touchkiss.categoryoflife.utils.GsonUtil;
+import com.touchkiss.categoryoflife.utils.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -56,12 +56,10 @@ public class SpeciesSpiderServiceImpl implements SpeciesSpiderService {
     private SpeciesReferencesDaoService speciesReferencesDaoService;
     @Autowired
     private SpeciesSynonymsDaoService speciesSynonymsDaoService;
-    @Autowired
-    private AHttpUtil aHttpUtil;
 
     @Override
     public boolean fetchSpecies(String id) throws IOException {
-        String response = aHttpUtil.get(UrlConstants.SPECIES_FETCH_URL + id);
+        String response = HttpUtil.get(UrlConstants.SPECIES_FETCH_URL + id);
         SpeciesResponse speciesResponse = GsonUtil.fromJson(response, SpeciesResponse.class);
         if (speciesResponse != null && !CollectionUtils.isEmpty(speciesResponse.getResults())) {
             for (SpeciesBO speciesBO : speciesResponse.getResults()) {

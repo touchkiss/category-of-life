@@ -1,5 +1,9 @@
 package com.touchkiss.categoryoflife.es.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 /**
@@ -7,31 +11,10 @@ import java.util.List;
  *
  * @author Touchkiss
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ESPage<T> {
     private Long recordsTotal;
     private List<T> data;
-
-    public ESPage() {
-    }
-
-    public ESPage(Long recordsTotal, List<T> data) {
-        this.recordsTotal = recordsTotal;
-        this.data = data;
-    }
-
-    public Long getRecordsTotal() {
-        return recordsTotal;
-    }
-
-    public void setRecordsTotal(Long recordsTotal) {
-        this.recordsTotal = recordsTotal;
-    }
-
-    public List<T> getData() {
-        return data;
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
 }

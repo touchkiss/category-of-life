@@ -8,6 +8,7 @@ import com.touchkiss.categoryoflife.es.utils.EsUtil;
 import com.touchkiss.categoryoflife.utils.GsonUtil;
 import com.touchkiss.categoryoflife.utils.MapUtil;
 import com.touchkiss.categoryoflife.utils.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -43,8 +44,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -59,9 +58,8 @@ import java.util.stream.Collectors;
  * @author Touchkiss
  */
 @Service
+@Slf4j
 public class BaseRepositoryImpl implements BaseRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BaseRepositoryImpl.class);
-
     protected static String IGNORE_REGEX = "[-,:,/\"]";
 
     @Autowired
@@ -73,8 +71,8 @@ public class BaseRepositoryImpl implements BaseRepository {
         try {
             return restHighLevelClient.indices().exists(new GetIndexRequest(index), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("查询index是否存在--出错");
-            LOGGER.info("index:" + index);
+            log.info("查询index是否存在--出错");
+            log.info("index:{}", index);
             e.printStackTrace();
         }
         return false;
@@ -86,8 +84,8 @@ public class BaseRepositoryImpl implements BaseRepository {
         String index = esDocument.index();
         try {
             if (checkIndexExists(clazz)) {
-                LOGGER.info("创建index--出错--index已存在");
-                LOGGER.info("index:" + index);
+                log.info("创建index--出错--index已存在");
+                log.info("index:{}", index);
                 return null;
             }
             CreateIndexRequest createIndexRequest = new CreateIndexRequest(index)
@@ -113,8 +111,8 @@ public class BaseRepositoryImpl implements BaseRepository {
                     }});
             return restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("创建index--出错");
-            LOGGER.info("index:" + index);
+            log.info("创建index--出错");
+            log.info("index:{}", index);
             e.printStackTrace();
         }
         return null;
@@ -126,8 +124,8 @@ public class BaseRepositoryImpl implements BaseRepository {
         try {
             return restHighLevelClient.indices().delete(new DeleteIndexRequest(index), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("删除index--出错");
-            LOGGER.info("index:" + index);
+            log.info("删除index--出错");
+            log.info("index:{}", index);
             e.printStackTrace();
         }
         return null;
@@ -139,9 +137,9 @@ public class BaseRepositoryImpl implements BaseRepository {
         try {
             return restHighLevelClient.index(getIndexRequest(esDocument, obj), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es保存数据--出错");
-            LOGGER.info("index:" + esDocument.index());
-            LOGGER.info("obj:" + obj.toString());
+            log.info("es保存数据--出错");
+            log.info("index:{}", esDocument.index());
+            log.info("obj:{}", obj.toString());
             e.printStackTrace();
         }
         return null;
@@ -151,7 +149,7 @@ public class BaseRepositoryImpl implements BaseRepository {
     public BulkResponse msave(@Nullable Object... objs) {
         try {
             if (ArrayUtils.isEmpty(objs)) {
-                LOGGER.info("es保存数据不能为空");
+                log.info("es保存数据不能为空");
                 return null;
             }
             EsDocument esDocument = EsUtil.getEsTableAnnotation(objs.getClass());
@@ -162,8 +160,8 @@ public class BaseRepositoryImpl implements BaseRepository {
                     .forEach(bulkRequest::add);
             return restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es保存数据--出错");
-            LOGGER.info("objs:" + Arrays.stream(objs).map(Object::toString).collect(Collectors.joining(";")));
+            log.info("es保存数据--出错");
+            log.info("objs:{}", Arrays.stream(objs).map(Object::toString).collect(Collectors.joining(";")));
             e.printStackTrace();
         }
         return null;
@@ -273,18 +271,18 @@ public class BaseRepositoryImpl implements BaseRepository {
                     .indices(indexs.split(","));
             return restHighLevelClient.search(request, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es查询数据--出错");
-            LOGGER.info("indexs:", indexs);
-            LOGGER.info("orderBy:", orderBy);
-            LOGGER.info("isAsc:", isAsc);
-            LOGGER.info("fields:", fields);
-            LOGGER.info("simpleQueryString:", simpleQueryString);
-            LOGGER.info("must:", must);
-            LOGGER.info("should:", should);
-            LOGGER.info("must_not:", must_not);
-            LOGGER.info("ranges:", ranges);
-            LOGGER.info("from:", from);
-            LOGGER.info("pageSize:", pageSize);
+            log.info("es查询数据--出错");
+            log.info("indexs:{}", indexs);
+            log.info("orderBy:{}", orderBy);
+            log.info("isAsc:{}", isAsc);
+            log.info("fields:{}", fields);
+            log.info("simpleQueryString:{}", simpleQueryString);
+            log.info("must:{}", must);
+            log.info("should:{}", should);
+            log.info("must_not:{}", must_not);
+            log.info("ranges:{}", ranges);
+            log.info("from:{}", from);
+            log.info("pageSize:{}", pageSize);
             e.printStackTrace();
         }
         return null;
@@ -305,12 +303,12 @@ public class BaseRepositoryImpl implements BaseRepository {
             }
             return restHighLevelClient.count(countRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es查询数据数量--出错");
-            LOGGER.info("indexs:", indexs);
-            LOGGER.info("simpleQueryString:", simpleQueryString);
-            LOGGER.info("must:", must);
-            LOGGER.info("should:", should);
-            LOGGER.info("must_not:", must_not);
+            log.info("es查询数据数量--出错");
+            log.info("indexs:{}", indexs);
+            log.info("simpleQueryString:{}", simpleQueryString);
+            log.info("must:{}", must);
+            log.info("should:{}", should);
+            log.info("must_not:{}", must_not);
             e.printStackTrace();
         }
         return null;
@@ -332,9 +330,9 @@ public class BaseRepositoryImpl implements BaseRepository {
         try {
             return restHighLevelClient.get(new GetRequest(index, id.toString()), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es获取数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("id:" + id);
+            log.info("es获取数据---出错");
+            log.info("index:{}", index);
+            log.info("id:{}", id);
             e.printStackTrace();
         }
         return null;
@@ -346,16 +344,16 @@ public class BaseRepositoryImpl implements BaseRepository {
         String index = esDocument.index();
         try {
             if (ArrayUtils.isEmpty(ids)) {
-                LOGGER.info("es获取数据---出错--id列表不能为空");
+                log.info("es获取数据---出错--id列表不能为空");
                 return null;
             }
             MultiGetRequest multiGetRequest = new MultiGetRequest();
             Arrays.stream(ids).forEach(id -> multiGetRequest.add(index, id.toString()));
             return restHighLevelClient.mget(multiGetRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es获取数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("ids:" + Arrays.toString(ids));
+            log.info("es获取数据---出错");
+            log.info("index:{}", index);
+            log.info("ids:{}", Arrays.toString(ids));
             e.printStackTrace();
         }
         return null;
@@ -367,7 +365,7 @@ public class BaseRepositoryImpl implements BaseRepository {
         String index = esDocument.index();
         try {
             if (ArrayUtils.isEmpty(ids)) {
-                LOGGER.info("es删除数据---出错--id列表不能为空");
+                log.info("es删除数据---出错--id列表不能为空");
                 return null;
             }
             BulkRequest bulkRequest = new BulkRequest();
@@ -377,9 +375,9 @@ public class BaseRepositoryImpl implements BaseRepository {
                     .forEach(bulkRequest::add);
             return restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es删除数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("ids:" + Arrays.toString(ids));
+            log.info("es删除数据---出错");
+            log.info("index:{}", index);
+            log.info("ids:{}", Arrays.toString(ids));
             e.printStackTrace();
         }
         return null;
@@ -391,9 +389,9 @@ public class BaseRepositoryImpl implements BaseRepository {
         try {
             return restHighLevelClient.delete(new DeleteRequest(index, id.toString()), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es删除数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("id:" + id);
+            log.info("es删除数据---出错");
+            log.info("index:{}", index);
+            log.info("id:{}", id);
             e.printStackTrace();
         }
         return null;
@@ -413,9 +411,9 @@ public class BaseRepositoryImpl implements BaseRepository {
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
                     , XContentType.JSON), RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es更新数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("id:" + id);
+            log.info("es更新数据---出错");
+            log.info("index:{}", index);
+            log.info("id:{}", id);
             e.printStackTrace();
         }
         return null;
@@ -427,7 +425,7 @@ public class BaseRepositoryImpl implements BaseRepository {
         String index = esDocument.index();
         try {
             if (ArrayUtils.isEmpty(ids)) {
-                LOGGER.info("es更新数据---出错--id列表不能为空");
+                log.info("es更新数据---出错--id列表不能为空");
                 return null;
             }
             BulkRequest bulkRequest = new BulkRequest();
@@ -442,9 +440,9 @@ public class BaseRepositoryImpl implements BaseRepository {
                     .forEach(bulkRequest::add);
             return restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
-            LOGGER.info("es更新数据---出错");
-            LOGGER.info("index:" + index);
-            LOGGER.info("ids:" + Arrays.toString(ids));
+            log.info("es更新数据---出错");
+            log.info("index:{}", index);
+            log.info("ids:{}", Arrays.toString(ids));
             e.printStackTrace();
         }
         return null;

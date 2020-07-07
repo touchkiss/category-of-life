@@ -1,7 +1,6 @@
 package com.touchkiss.categoryoflife.spider.translate.task;
 
 import com.touchkiss.categoryoflife.spider.translate.services.BiodinfoTranslateSpiderService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +17,7 @@ public class BiodinfoSpiderTask {
     @Autowired
     private BiodinfoTranslateSpiderService biodinfoTranslateSpiderService;
 
-//    @Scheduled(cron = "*/10 * * * * ?")
+    @Scheduled(cron = "* * * * * ?")
     public void autoFetch() {
         log.info("====================定时任务抓取中文翻译==========");
         biodinfoTranslateSpiderService.autoFetch();

@@ -20,10 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -59,7 +56,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     @Override
@@ -72,7 +69,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
             String orderby = (datatableorderby.contains("order by") ? datatableorderby.substring(datatableorderby.indexOf("order by") + 8).trim() : "").trim();
             orderby = StringUtils.isBlank(orderby) ? "" : orderby.substring(0, orderby.indexOf(" "));
             SearchResponse search = baseRepository.search(EsUtil.getEsTableAnnotation(getTClass()).index(), analyseOrderby(orderby), datatableorderby.contains("asc"), fields, null, filterMap(must), filterMap(should), filterMap(must_not), null, from, pageSize);
-            return new ESPage<T>(search.getHits().getTotalHits().value, Arrays.stream(search.getHits().getHits())
+            return new ESPage(search.getHits().getTotalHits().value, Arrays.stream(search.getHits().getHits())
                     .map(hit -> MapUtil.mapToObject(hit.getSourceAsMap(), getTClass()))
                     .collect(Collectors.toList()));
         } catch (Exception e) {
@@ -170,7 +167,7 @@ public abstract class BaseESServiceImpl<T> implements BaseESService<T> {
         try {
             Field declaredField = getTClass().getDeclaredField(orderby);
             if (declaredField.isAnnotationPresent(EsField.class)) {
-                if (declaredField.getType().getName().equals("java.lang.String")) {
+                if ("java.lang.String".equals(declaredField.getType().getName())) {
                     EsField esField = declaredField.getAnnotation(EsField.class);
                     if (esField.type().equals(EsField.FieldType.Auto) || esField.type().equals(EsField.FieldType.Text)) {
                         return null;

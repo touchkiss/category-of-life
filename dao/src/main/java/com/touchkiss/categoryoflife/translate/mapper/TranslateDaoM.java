@@ -1,7 +1,7 @@
 package com.touchkiss.categoryoflife.translate.mapper;
 
-import com.touchkiss.categoryoflife.translate.bean.Translate;
 import com.github.pagehelper.Page;
+import com.touchkiss.categoryoflife.translate.bean.Translate;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,9 +15,9 @@ import java.util.Map;
  */
 @Mapper
 public interface TranslateDaoM {
-	int insert(Translate translate);
+    int insert(Translate translate);
 
-	int insertWithoutId(Translate translate);
+    int insertWithoutId(Translate translate);
 
     int deleteById(Integer id);
 
@@ -31,7 +31,7 @@ public interface TranslateDaoM {
 
     Translate selectById(Integer id);
 
-    List<Translate> queryTranslateList(@Param("wheres") Map<String, String> wheres);
+    List<Translate> queryTranslateList(@Param("fields") List<String> fields,@Param("wheres") Map<String, String> wheres);
 
-	Page<Translate> findByPage(@Param("wheres") Map<String, String> wheres);
+    Page<Translate> findByPage(@Param("fields") List<String> fields, @Param("wheres") Map<String, String> wheres);
 }

@@ -15,8 +15,8 @@ import com.touchkiss.categoryoflife.spider.life.bean.response.LifeCategoryRespon
 import com.touchkiss.categoryoflife.spider.life.services.LifeCategorySpiderService;
 import com.touchkiss.categoryoflife.spider.life.services.LifeCategorySpiderThread;
 import com.touchkiss.categoryoflife.spider.species.services.SpeciesSpiderService;
-import com.touchkiss.categoryoflife.utils.AHttpUtil;
 import com.touchkiss.categoryoflife.utils.GsonUtil;
+import com.touchkiss.categoryoflife.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +49,6 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
     private SourceDatabaseConvertor sourceDatabaseConvertor;
     @Autowired
     private SpeciesSpiderService speciesSpiderService;
-    @Autowired
-    private AHttpUtil aHttpUtil;
 
     @Override
     public int fetchLifeCategoryFromWeb(int id) throws IOException {
@@ -58,7 +56,7 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
         log.info("=============开始抓取物种id：" + id + "======");
         LifeCategory lifeCategoryInDB = lifeCategoryDaoService.selectById(id);
         if (lifeCategoryInDB == null || !"species".equals(lifeCategoryInDB.getType())) {
-            String response = aHttpUtil.get(UrlConstants.LIFE_CATEGORY_TREE_FETCH_URL + id);
+            String response = HttpUtil.get(UrlConstants.LIFE_CATEGORY_TREE_FETCH_URL + id);
             LifeCategoryResponse lifeCategoryResponse = GsonUtil.fromJson(response, LifeCategoryResponse.class);
             if (lifeCategoryResponse != null && !CollectionUtils.isEmpty(lifeCategoryResponse.getItems())) {
                 for (LifeCategoryBO lifeCategoryBO : lifeCategoryResponse.getItems()) {

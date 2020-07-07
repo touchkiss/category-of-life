@@ -57,7 +57,7 @@ public class HttpUtil {
     public static String get(String url, int connectTimeout, int socketTimeout, String charset, List<Header> headers) throws IOException {
         HttpGet httpget = new HttpGet(url);
         configAndHeaders(connectTimeout, socketTimeout, headers, httpget);
-        log.info("=================开始发送get请求：" + url);
+        log.info("=================开始发送get请求：{}" , url);
         return response(charset, getHttpClient().execute(httpget));
     }
 
@@ -95,7 +95,7 @@ public class HttpUtil {
             httpPost.setEntity(formEntity);
         }
         configAndHeaders(connectTimeout, socketTimeout, headers, httpPost);
-        log.info("=================开始发送post请求：" + url);
+        log.info("=================开始发送post请求：{}",url);
         return response(charset, getHttpClient().execute(httpPost));
     }
 
@@ -117,7 +117,7 @@ public class HttpUtil {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setEntity(new StringEntity(body, Charset.forName(charset)));
         configAndHeaders(connectTimeout, socketTimeout, headers, httpPost);
-        log.info("=================开始发送post请求：" + url);
+        log.info("=================开始发送post请求：{}" , url);
         return response(charset, getHttpClient().execute(httpPost));
     }
 

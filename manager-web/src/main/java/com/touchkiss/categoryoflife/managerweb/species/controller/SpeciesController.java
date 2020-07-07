@@ -17,7 +17,7 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("species")
-public class SpeciesController extends BaseController {
+public class SpeciesController implements BaseController {
     @Autowired
     private SpeciesDaoService speciesDaoService;
 
