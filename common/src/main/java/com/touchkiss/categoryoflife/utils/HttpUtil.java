@@ -43,7 +43,7 @@ public class HttpUtil {
 //        PROXY = new HttpHost("192.168.8.200", 8087);
 //    }
 
-    private static CloseableHttpClient getHttpClient() {
+    public static CloseableHttpClient getHttpClient() {
         return HttpClients.custom()
                 .setConnectionTimeToLive(DEFAULT_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .setDefaultSocketConfig(DEFAULT_SOCKET_CONFIG)
@@ -61,7 +61,7 @@ public class HttpUtil {
         return response(charset, getHttpClient().execute(httpget));
     }
 
-    private static String response(String charset, CloseableHttpResponse response) throws IOException {
+    public static String response(String charset, CloseableHttpResponse response) throws IOException {
         HttpEntity httpEntity = response.getEntity();
         return inputStream2String(httpEntity.getContent(), charset);
     }

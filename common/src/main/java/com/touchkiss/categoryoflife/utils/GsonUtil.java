@@ -1,6 +1,7 @@
 package com.touchkiss.categoryoflife.utils;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Type;
 
@@ -9,6 +10,7 @@ import java.lang.reflect.Type;
  *
  * @author Touchkiss
  */
+@Slf4j
 public class GsonUtil {
     private final static Gson GSON = new Gson();
 
@@ -26,6 +28,7 @@ public class GsonUtil {
             return GSON.fromJson(json, type);
         } catch (Exception e) {
             e.printStackTrace();
+            log.info(json);
             return null;
         }
     }
