@@ -1,68 +1,100 @@
 <template>
   <div class="scroll-list-wrap">
-    <header class="header"><i class="cubeic-back" v-if="$route.params.id" @click="$router.go(-1)"></i></header>
-    <cube-scroll
-      ref="scroll"
-      :data="items">
-      <ul class="list-wrapper">
-        <li v-for="item in items" :key="item.id" class="list-item">
-          <ListItem :item="item"></ListItem>
-        </li>
-      </ul>
-    </cube-scroll>
+    <div class="md-nav">
+      <p class="home" @click="$router.push('/')">
+        <i class="md-icon icon-font md-icon-home home lg"></i>
+      </p>
+      <p class="name">{{title}}</p></div>
+    <div class="list-field">
+      <md-field>
+        <md-cell-item v-for="item in items" :key="item.id" :title="item.cnName" :brief="item.className"
+                      @click="showData(item)">
+          <i v-if="item.parent" class="md-icon icon-font md-icon-arrow-right lg" slot="right"
+             @click.stop="$router.push('/list/' +item.id)"></i>
+        </md-cell-item>
+      </md-field>
+    </div>
+    <md-popup
+      v-model="showPopup"
+      position="bottom"
+    >
+      <md-popup-title-bar
+        :title="popupItem.cnName"
+        :describe="popupItem.enName"
+        large-radius
+      ></md-popup-title-bar>
+      <div class="popup-main">
+        <iframe v-if="popupItem.cnName" :src="'https://baike.baidu.com/item/'+popupItem.cnName"></iframe>
+      </div>
+    </md-popup>
   </div>
 </template>
 
 <style lang="scss">
   .scroll-list-wrap {
-    height: 100%;
+    background: #f3f4f5;
 
-    .header {
+    .md-nav {
       position: relative;
-      height: 44px;
-      line-height: 44px;
-      text-align: center;
-      background-color: #edf0f4;
-      box-shadow: 0 1px 6px #ccc;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      z-index: 5;
-      h1{
-        font-size: 16px;
-        font-weight: 700;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      padding: 0.32rem 0.2rem 0.2rem 0.2rem;
+
+      p {
+        position: relative;
+        display: inline-block;
+        line-height: 1;
       }
-      i{
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 0 15px;
-        color: #fc9153;
+
+      .home {
+        font-size: 0.6rem;
+        color: #0099CC;
+      }
+
+      .name {
+        margin-left: 0.32rem;
+        font-size: 0.6rem;
+        font-weight: 500;
+        color: #111a34;
       }
     }
 
-    .list-item {
-      height: 60px;
-      border-bottom: solid 1px pink;
-      line-height: 50px;
-      padding: 5px;
-      font-size: 20px;
+    .md-field {
+      padding-top: 0;
+    }
+
+    .md-popup-title-bar{
+      height: 1rem!important;
+      div{
+        padding-top: 0.1rem!important;
+      }
+    }
+
+    .popup-main {
+      background: #ecf6ff;
+      min-height: 8rem;
+      iframe{
+        border: none;
+        width: 100%;
+        height: 8rem;
+      }
     }
   }
+
 </style>
 
 <script>
 import qs from 'qs'
-import ListItem from '@/components/ListItem'
 
 export default {
   props: ['id'],
-  components: {
-    ListItem
-  },
   data () {
     return {
       items: [],
-      title: ''
+      title: '物种百科',
+      showPopup: false,
+      popupItem: {}
     }
   },
   watch: {
@@ -79,6 +111,11 @@ export default {
       await this._$axios.post(url, qs.stringify({ otherParam: 'zTreeAsyncTest' })).then(result => {
         this.items = result.data
       })
+    },
+    showData (item) {
+      this.showPopup = true
+      this.popupItem = item
+      this.$set(this.popupItem, 'bottom', true)
     }
   }
 }

@@ -1,16 +1,16 @@
 module.exports = {
   css: {
     loaderOptions: {
-      stylus: {
-        'resolve url': true,
-        import: []
+      postcss: {
+        plugins: [
+          require('postcss-pxtorem')({
+            rootValue: 100,
+            propWhiteList: [],
+            minPixelValue: 2
+          }),
+          require('autoprefixer')()
+        ]
       }
-    }
-  },
-  pluginOptions: {
-    'cube-ui': {
-      postCompile: false,
-      theme: false
     }
   }
 }

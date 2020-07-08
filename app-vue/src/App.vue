@@ -1,43 +1,18 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view/>
   </div>
 </template>
-<script>
-export default {
-  name: 'App'
-}
-</script>
-<style>
-body {
-font-family: 'Avenir', Helvetica, Arial, sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-}
 
-li,
-ul,
-p,
-div,
-body,
-html,
-table {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-
-html,
-body {
-height: 100%;
-overflow: hidden;
-}
-
-li {
-list-style: none;
-}
-
-#app {
-height: 100%;
-}
+<style scoped>
+  html{
+    touch-action: manipulation;
+    background: #f3f4f5;
+  }
+  body{
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,微软雅黑,Arial,sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 </style>
