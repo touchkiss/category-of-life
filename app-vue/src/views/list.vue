@@ -4,7 +4,11 @@
       <p class="home" @click="$router.push('/')">
         <i class="md-icon icon-font md-icon-home home lg"></i>
       </p>
-      <p class="name">{{title}}</p></div>
+      <p class="name">{{title}}</p>
+      <p class="search" @click="$router.push('/search')">
+        <i class="md-icon icon-font md-icon-search search lg"></i>
+      </p>
+    </div>
     <div class="list-field">
       <md-field>
         <md-cell-item v-for="item in items" :key="item.id" :title="item.cnName" :brief="item.className"
@@ -47,7 +51,7 @@
         line-height: 1;
       }
 
-      .home {
+      .home,.search {
         font-size: 0.6rem;
         color: #0099CC;
       }
@@ -58,23 +62,29 @@
         font-weight: 500;
         color: #111a34;
       }
+      .search{
+        right: 0.3rem;
+        position: absolute;
+      }
     }
 
     .md-field {
       padding-top: 0;
     }
 
-    .md-popup-title-bar{
-      height: 1rem!important;
-      div{
-        padding-top: 0.1rem!important;
+    .md-popup-title-bar {
+      height: 1rem !important;
+
+      div {
+        padding-top: 0.1rem !important;
       }
     }
 
     .popup-main {
       background: #ecf6ff;
       min-height: 8rem;
-      iframe{
+
+      iframe {
         border: none;
         width: 100%;
         height: 8rem;
