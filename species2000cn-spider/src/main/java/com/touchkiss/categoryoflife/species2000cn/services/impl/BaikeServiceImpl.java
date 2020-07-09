@@ -65,7 +65,7 @@ public class BaikeServiceImpl implements BaikeService {
                     if (next.hasClass("lemma-summary")) {
                         title.append("简介");
                         contentBuilder.append(currentText);
-                        String tempTitle = removePreferences(title.toString()).replace(documentTitle, "");
+                        String tempTitle = removePreferences(title.toString());
                         if (titleSet.contains(tempTitle)){
                             continue;
                         }
@@ -92,7 +92,7 @@ public class BaikeServiceImpl implements BaikeService {
                                 if (basicInfoItem.hasClass("name")) {
                                     title.append(basicInfoItem.text());
                                 } else if (basicInfoItem.hasClass("value")) {
-                                    String tempTitle2 = removePreferences(title.toString()).replace(documentTitle, "");
+                                    String tempTitle2 = removePreferences(title.toString());
                                     if (titleSet.contains(tempTitle2)){
                                         continue;
                                     }
@@ -116,7 +116,7 @@ public class BaikeServiceImpl implements BaikeService {
                             }
                         }
                     } else if (next.hasClass("para-title")) {
-                        currentText = removePreferences(currentText).replace(documentTitle, "");
+                        currentText = removePreferences(currentText);
                         if (StringUtils.isBlank(currentText)) {
                             continue;
                         }
@@ -171,6 +171,6 @@ public class BaikeServiceImpl implements BaikeService {
     }
 
     String removePreferences(String source) {
-        return source.replace(" 编辑", "").replace(" ", "").replaceAll("[ \\[]*[\\u2460-\\u277f-]+[\\] ]*", "").replaceAll("[ ]*\\[[ ]*[0-9-]+[ ]*\\][ ]*", "").replaceAll("（[见如]*图[0-9-]+）", "");
+        return source.replace(" 编辑", "").replace(" ", "").replaceAll("[ \\[]*[\\u2460-\\u277f]+[\\] ]*", "").replaceAll("[ ]*\\[[ ]*[0-9-]+[ ]*\\][ ]*", "").replaceAll("（[见如]*图[0-9-]+）", "");
     }
 }

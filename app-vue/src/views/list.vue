@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .scroll-list-wrap {
     background: #f3f4f5;
 
@@ -63,7 +63,7 @@
         color: #111a34;
       }
       .search{
-        right: 0.3rem;
+        right: 0.1rem;
         position: absolute;
       }
     }

@@ -10,7 +10,7 @@
       <md-input-item
         type="text"
         v-model="value"
-        placeholder="大象的分布区域"
+        :placeholder="randomPlaceholder()"
         :size="size"
         is-highlight
         @confirm="search"
@@ -38,11 +38,11 @@
     margin-right: 0.3rem;
   }
 
-  textarea {
-    padding: 0.2rem;
+  .md-textarea-item__textarea {
+    padding: 0.2rem!important;
     color: #111a34 !important;
     font: 500 0.32rem Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
-    text-indent: 0.5rem;
+    text-indent: 0.5rem!important;
   }
 </style>
 
@@ -51,8 +51,12 @@ export default {
   data () {
     return {
       value: '',
-      results: []
+      results: [],
+      placeholders: ['大象的分布区域', '霸王龙的体型', '翼手龙的简介', '鸵鸟的食物', '金枪鱼的别称'],
+      placeholder: ''
     }
+  },
+  created () {
   },
   computed: {
     size () {
@@ -62,11 +66,15 @@ export default {
   methods: {
     async search () {
       if (this.value === '') {
-        this.value = '大象的分布区域'
+        this.value = this.placeholder
       }
       await this._$axios.post('/query/' + this.value).then(result => {
         this.results = result.data
       })
+    },
+    randomPlaceholder () {
+      this.placeholder = this.placeholders[parseInt((Math.random() * this.placeholders.length))]
+      return this.placeholder
     }
   }
 }

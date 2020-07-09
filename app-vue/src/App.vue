@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <md-transition transition="md-slide-left">
       <router-view/>
+    </md-transition>
   </div>
 </template>
 
