@@ -273,11 +273,4 @@ public class BaikeSpiderServiceImpl implements BaikeSpiderService {
     String removePreferences(String source) {
         return source.replace(" 编辑", "").replace(" ", "").replaceAll("[ \\[]*[\\u2460-\\u277f-]+[\\] ]*", "").replaceAll("[ ]*\\[[ ]*[0-9-]+[ ]*\\][ ]*", "").replaceAll("（[见如]*图[0-9-]+）", "");
     }
-
-    public static void main(String[] args) {
-//        BaikeSpiderServiceImpl baikeSpiderService = new BaikeSpiderServiceImpl();
-//        BaikeItem baikeItem = baikeSpiderService.fetchBaike("https://baike.baidu.com/item/%E5%8A%A8%E7%89%A9/216062?fromtitle=%E5%8A%A8%E7%89%A9%E7%95%8C&fromid=1622470");
-//        System.out.println(baikeItem.getTitle());
-        System.out.println("“131”[]\"!(...（）)@#$%^&*:\'?？，。,.;；{}领军人才".replaceAll("[\"!@#$%^&*（）\\(\\)\\-_=+…·\\~`:'“”‘、\\[\\]|\\\\?/,？\\.，。：；;{}]", ""));
-    }
 }

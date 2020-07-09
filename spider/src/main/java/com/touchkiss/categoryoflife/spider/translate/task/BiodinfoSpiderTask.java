@@ -17,7 +17,7 @@ public class BiodinfoSpiderTask {
     @Autowired
     private BiodinfoTranslateSpiderService biodinfoTranslateSpiderService;
 
-    @Scheduled(cron = "* * * * * ?")
+//    @Scheduled(cron = "* * * * * ?")
     public void autoFetch() {
         log.info("====================定时任务抓取中文翻译==========");
         biodinfoTranslateSpiderService.autoFetch();

@@ -24,22 +24,22 @@ import java.util.regex.Pattern;
 public class BaikeTest {
     private final static Pattern NumberPattern = Pattern.compile("[0-9]+");
 
-    public static void main(String[] args) throws MalformedURLException {
-//        InnerBaike innerBaike = fetchBaike("https://baike.baidu.com/item/%E5%8A%A8%E7%89%A9/216062?fromtitle=%E5%8A%A8%E7%89%A9%E7%95%8C&fromid=1622470");
-//        innerBaike.getProperties().forEach((k, v) -> {
-//            System.out.println(k + ":" + v);
-//        });
-//        System.out.println(removePreferences("运动习性：大多数无脊椎动物有着明显的前端和后端，感觉器官靠近口部簇生，这种构造能帮助它们在向前运动时及时发觉新情况，并迅速采取应对措施，使运动更快、更敏捷。[4]\n" +
-//                "环节躯体：许多无脊椎动物都有着可以分成一些分离环节的躯体，这种躯体构造有利于它们随意改变形状，以复杂的方式进行运动。例如，蜈蚣的大多数环节上都长有一双腿，运动时异常灵活。"));
-//        BaikeSpiderServiceImpl baikeSpiderService = new BaikeSpiderServiceImpl();
-//        BaikeItem baikeItem = baikeSpiderService.fetchBaike("https://baike.baidu.com/item/%E6%B5%81%E6%B0%93/32923");
-//        System.out.println(baikeItem.getTitle());
-        String str="帝企鹅（学名：Aptenodytesforsteri）：也称皇帝企鹅，是企鹅家族中个体最大的物种，一般身高在90厘米以上，最大可达到120厘米，体重可达50千克。其形态特征是脖子底下有一片橙黄色羽毛，向下逐渐变淡，耳朵后部最深。全身色泽协调。颈部为淡黄色，耳朵的羽毛鲜黄橘色，腹部乳白色，背部及鳍状肢则是黑色，鸟喙的下方是鲜桔色。帝企鹅在南极严寒的冬季冰上繁殖后代，雌企鹅每次产1枚蛋，雄企鹅孵蛋。雄帝企鹅双腿和腹部下方之间有一块布满血管的紫色皮肤的育儿袋，能让蛋在环境温度低达零下40摄氏度的低温中保持在舒适的36摄氏度。群居性动物。每当恶劣的气候来临，它们会挤在一起防风御寒。可以潜入水底150至500米，最深的潜水记录甚至可达565米。主要以甲壳类动物为食，偶尔也捕食小鱼和乌贼。唯一一种在南极洲的冬季进行繁殖的企鹅。在南极以及周围岛屿都有分布。";
-        String[] split = str.split("(?<=[。？！])");
-        for (String s : split) {
-            System.out.println(s);
-        }
-    }
+//    public static void main(String[] args) throws MalformedURLException {
+////        InnerBaike innerBaike = fetchBaike("https://baike.baidu.com/item/%E5%8A%A8%E7%89%A9/216062?fromtitle=%E5%8A%A8%E7%89%A9%E7%95%8C&fromid=1622470");
+////        innerBaike.getProperties().forEach((k, v) -> {
+////            System.out.println(k + ":" + v);
+////        });
+////        System.out.println(removePreferences("运动习性：大多数无脊椎动物有着明显的前端和后端，感觉器官靠近口部簇生，这种构造能帮助它们在向前运动时及时发觉新情况，并迅速采取应对措施，使运动更快、更敏捷。[4]\n" +
+////                "环节躯体：许多无脊椎动物都有着可以分成一些分离环节的躯体，这种躯体构造有利于它们随意改变形状，以复杂的方式进行运动。例如，蜈蚣的大多数环节上都长有一双腿，运动时异常灵活。"));
+////        BaikeSpiderServiceImpl baikeSpiderService = new BaikeSpiderServiceImpl();
+////        BaikeItem baikeItem = baikeSpiderService.fetchBaike("https://baike.baidu.com/item/%E6%B5%81%E6%B0%93/32923");
+////        System.out.println(baikeItem.getTitle());
+//        String str="帝企鹅（学名：Aptenodytesforsteri）：也称皇帝企鹅，是企鹅家族中个体最大的物种，一般身高在90厘米以上，最大可达到120厘米，体重可达50千克。其形态特征是脖子底下有一片橙黄色羽毛，向下逐渐变淡，耳朵后部最深。全身色泽协调。颈部为淡黄色，耳朵的羽毛鲜黄橘色，腹部乳白色，背部及鳍状肢则是黑色，鸟喙的下方是鲜桔色。帝企鹅在南极严寒的冬季冰上繁殖后代，雌企鹅每次产1枚蛋，雄企鹅孵蛋。雄帝企鹅双腿和腹部下方之间有一块布满血管的紫色皮肤的育儿袋，能让蛋在环境温度低达零下40摄氏度的低温中保持在舒适的36摄氏度。群居性动物。每当恶劣的气候来临，它们会挤在一起防风御寒。可以潜入水底150至500米，最深的潜水记录甚至可达565米。主要以甲壳类动物为食，偶尔也捕食小鱼和乌贼。唯一一种在南极洲的冬季进行繁殖的企鹅。在南极以及周围岛屿都有分布。";
+//        String[] split = str.split("(?<=[。？！])");
+//        for (String s : split) {
+//            System.out.println(s);
+//        }
+//    }
 
     static String removePreferences(String source) {
         return source.replace(" 编辑", "").replace(" ", "").replaceAll("[ \\[]*[\\u2460-\\u277f-]+[\\] ]*", "").replaceAll("[ ]*\\[[ ]*[0-9-]+[ ]*\\][ ]*", "").replaceAll("（[见如]*图[0-9-]+）", "");

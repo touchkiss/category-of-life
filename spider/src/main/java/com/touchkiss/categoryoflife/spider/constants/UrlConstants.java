@@ -10,7 +10,11 @@ public class UrlConstants {
      * 抓取生命分类树地址
      * 来自 http://www.catalogueoflife.org/col/browse/tree
      */
-    public final static String LIFE_CATEGORY_TREE_FETCH_URL = "http://www.catalogueoflife.org/col/browse/tree/fetch/taxa?id=";
+//    public final static String LIFE_CATEGORY_TREE_FETCH_URL = "http://www.catalogueoflife.org/col/browse/tree/fetch/taxa?id=";
+    /**
+     * 年度生命分类树地址
+     */
+    public final static String LIFE_CATEGORY_TREE_FETCH_URL = "http://www.catalogueoflife.org/annual-checklist/2019/browse/tree/fetch/taxa?id=";
     /**
      * 抓取物种详细信息地址
      */

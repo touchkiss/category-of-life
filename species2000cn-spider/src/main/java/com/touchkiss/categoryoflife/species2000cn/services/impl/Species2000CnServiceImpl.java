@@ -134,9 +134,4 @@ public class Species2000CnServiceImpl implements Species2000CnService {
                 return "种";
         }
     }
-
-    public static void main(String[] args) {
-        String str = "Order	ARTIODACTYLA	偶蹄目(acc.48, 	syn.95	<a class=\"text-specialists\" href=\"specialist/specialist_details/1457043364\" title=\"\" target=\"_blank\">Yang Qi-Sen</a>)";
-        System.out.println(str.replaceAll(BRANKETS_REGEX, ""));
-    }
 }

@@ -22,7 +22,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("baike")
-public class BaikeController {
+public class BaiduBaikeController {
     @Autowired
     private BaseRepositoryImpl baseRepository;
     @Autowired

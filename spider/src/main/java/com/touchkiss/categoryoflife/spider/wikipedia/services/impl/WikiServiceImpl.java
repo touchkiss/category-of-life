@@ -78,12 +78,4 @@ public class WikiServiceImpl implements WikiService {
         titles.stream().map(title -> new WikiSpiderThread(this, title))
                 .forEach(ThreadPoolExecutors.pool::execute);
     }
-
-    public static void main(String[] args) throws IOException {
-//        String s = HttpUtil.get("https://species.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&titles=Cephalorhynchus_commersonii");
-//        Matcher matcher = INNER_LINK_PATTERN.matcher(s);
-//        while (matcher.find()){
-//            System.out.println(matcher.group(0));
-//        }
-    }
 }

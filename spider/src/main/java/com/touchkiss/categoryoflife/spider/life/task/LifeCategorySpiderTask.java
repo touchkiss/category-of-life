@@ -17,7 +17,7 @@ public class LifeCategorySpiderTask {
     @Autowired
     private LifeCategorySpiderService lifeCategorySpiderService;
 
-//    @Scheduled(cron = "* * * * * ?")
+    @Scheduled(cron = "*/10 * * * * ?")
     public void autoFetch() {
         log.info("====================定时任务抓取物种分类==========");
         lifeCategorySpiderService.autoFetch();

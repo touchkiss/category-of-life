@@ -24,11 +24,6 @@
             <artifactId>dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.touchkiss.categoryoflife</groupId>
-            <artifactId>spider</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>

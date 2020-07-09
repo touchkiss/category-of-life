@@ -56,15 +56,15 @@ public class Parser {
         add(":");
     }};
 
-    public static void main(String[] args) {
-        String str = "{{image|Commdolph01.jpg}}\\n=={{int:Taxonavigation}}==\\n{{Cephalorhynchus}}\\nSpecies: ''[[Cephalorhynchus commersonii]]''<br>\\nSubspecies: {{ssp|C|ephalorhynchus|c|ommersonii|commersonii}} \\n{{ssplast|C|ephalorhynchus|c|ommersonii|kerguelensis}}\\n=={{int:Name}}==\\n'''''Cephalorhynchus commersonii''''' ({{a|Bernard Germain Étienne de la Ville, Comte de Lacépède|Lacépède}}, 1804)\\n\\nEtymology: ''commersonii'' for {{a|Philibert Commerson}}, who first described them in 1767 after sighting them in the Strait of Magellan.\\n\\n==={{int:Synonyms}}===\\n*''Cephalorhynchus commersoni'' {{a|José Yáñez|Yanez}}, 1948\\n*''Delphinus commersonii'' {{a|Bernard Germain Étienne de la Ville, Comte de Lacépède|Lacépède}}, 1804\\n*''Lagenorhynchus burmeisteri'' {{a|Francisco Pascasio Moreno|Moreno}}, 1892\\n*''Lagenorhynchus floweri'' {{aut|Moreno}}, 1892\\n*''Phocoena commersonii'' {{a|Lesson}}, 1827\\n\\n=={{int:References}}==\\n* {{aut|Robineau, D.}}, {{aut|Goodall, R.N.P.}}, {{aut|Pichler, F.}} & {{aut|Baker, C.S.}} 2007. Description of a new subspecies of Commerson's dolphin, ''Cephalorhynchus commersonii'' ({{aut|Lacépède}}, 1804), inhabiting the coastal waters of the Kerguelen Islands. ''Mammalia'' 71: 172–180. ISSN (Online): 1864–1547, ISSN (Print): 0025–1461 {{doi|10.1515/MAMM.2007.034}}\\n* {{MSWsp|14300037}}\\n\\n=={{int:Vernacular names}}==\\n{{VN\\n|en=Commerson’s Dolphin\\n|fi=Kirjodelfiini\\n|hu=Commerson-delfin\\n|ja=イロワケイルカ\\n|pl=delfin czarnogłowy\\n|sv=Commersons delfin, skäckig delfin\\n|tr=Alaca yunus\\n}}\\n{{commonscat}}";
-        str = str.replaceAll("\\\\n", "\n");
-        try {
-            run(str, "Cephalorhynchus", false);
-        } catch (IOException | LinkTargetException | EngineException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        String str = "{{image|Commdolph01.jpg}}\\n=={{int:Taxonavigation}}==\\n{{Cephalorhynchus}}\\nSpecies: ''[[Cephalorhynchus commersonii]]''<br>\\nSubspecies: {{ssp|C|ephalorhynchus|c|ommersonii|commersonii}} \\n{{ssplast|C|ephalorhynchus|c|ommersonii|kerguelensis}}\\n=={{int:Name}}==\\n'''''Cephalorhynchus commersonii''''' ({{a|Bernard Germain Étienne de la Ville, Comte de Lacépède|Lacépède}}, 1804)\\n\\nEtymology: ''commersonii'' for {{a|Philibert Commerson}}, who first described them in 1767 after sighting them in the Strait of Magellan.\\n\\n==={{int:Synonyms}}===\\n*''Cephalorhynchus commersoni'' {{a|José Yáñez|Yanez}}, 1948\\n*''Delphinus commersonii'' {{a|Bernard Germain Étienne de la Ville, Comte de Lacépède|Lacépède}}, 1804\\n*''Lagenorhynchus burmeisteri'' {{a|Francisco Pascasio Moreno|Moreno}}, 1892\\n*''Lagenorhynchus floweri'' {{aut|Moreno}}, 1892\\n*''Phocoena commersonii'' {{a|Lesson}}, 1827\\n\\n=={{int:References}}==\\n* {{aut|Robineau, D.}}, {{aut|Goodall, R.N.P.}}, {{aut|Pichler, F.}} & {{aut|Baker, C.S.}} 2007. Description of a new subspecies of Commerson's dolphin, ''Cephalorhynchus commersonii'' ({{aut|Lacépède}}, 1804), inhabiting the coastal waters of the Kerguelen Islands. ''Mammalia'' 71: 172–180. ISSN (Online): 1864–1547, ISSN (Print): 0025–1461 {{doi|10.1515/MAMM.2007.034}}\\n* {{MSWsp|14300037}}\\n\\n=={{int:Vernacular names}}==\\n{{VN\\n|en=Commerson’s Dolphin\\n|fi=Kirjodelfiini\\n|hu=Commerson-delfin\\n|ja=イロワケイルカ\\n|pl=delfin czarnogłowy\\n|sv=Commersons delfin, skäckig delfin\\n|tr=Alaca yunus\\n}}\\n{{commonscat}}";
+//        str = str.replaceAll("\\\\n", "\n");
+//        try {
+//            run(str, "Cephalorhynchus", false);
+//        } catch (IOException | LinkTargetException | EngineException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     static void parse(String str) {
         char[] chars = str.toCharArray();

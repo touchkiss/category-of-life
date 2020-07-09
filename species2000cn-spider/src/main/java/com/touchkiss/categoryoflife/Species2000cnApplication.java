@@ -5,14 +5,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Created on 2020/07/07 16:15
  *
  * @author Touchkiss
  */
-@SpringBootApplication
-@EnableAspectJAutoProxy
+//@SpringBootApplication
+//@EnableAspectJAutoProxy
+//@EnableScheduling
 public class Species2000cnApplication  extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Species2000cnApplication.class);

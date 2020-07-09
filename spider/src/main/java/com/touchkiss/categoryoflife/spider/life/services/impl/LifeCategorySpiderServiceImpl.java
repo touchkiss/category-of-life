@@ -56,7 +56,8 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
         log.info("=============开始抓取物种id：" + id + "======");
         LifeCategory lifeCategoryInDB = lifeCategoryDaoService.selectById(id);
         if (lifeCategoryInDB == null || !"species".equals(lifeCategoryInDB.getType())) {
-            String response = HttpUtil.get(UrlConstants.LIFE_CATEGORY_TREE_FETCH_URL + id);
+            String url = UrlConstants.LIFE_CATEGORY_TREE_FETCH_URL + id;
+            String response = HttpUtil.get(url);
             LifeCategoryResponse lifeCategoryResponse = GsonUtil.fromJson(response, LifeCategoryResponse.class);
             if (lifeCategoryResponse != null && !CollectionUtils.isEmpty(lifeCategoryResponse.getItems())) {
                 for (LifeCategoryBO lifeCategoryBO : lifeCategoryResponse.getItems()) {
@@ -84,6 +85,9 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
                     }
                 }
                 result = lifeCategoryResponse.getItems().size();
+            }else{
+                log.error("抓取{}返回结果不符合预期",url);
+                log.info("http返回结果:{}",response);
             }
         } else if (lifeCategoryInDB != null && "species".equals(lifeCategoryInDB.getType())) {
             String url = lifeCategoryInDB.getUrl();
@@ -109,14 +113,22 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
     @Override
     public void autoFetch() {
         List<LifeCategory> list = lifeCategoryDaoService.queryLifeCategoryList(new HashMap() {{
+            put("id_get","5000000");
             put("fetched", "0");
             put("type_ne", "species");
-            put("limit", "limit 10");
+            put("limit", "limit 3");
         }});
         if (!CollectionUtils.isEmpty(list)) {
-            list.stream()
-                    .map(lifeCategory -> new LifeCategorySpiderThread(lifeCategory.getId(), this))
-                    .forEach(ThreadPoolExecutors.pool::execute);
+            list.forEach(lifeCategory -> {
+                try {
+                    fetchLifeCategoryFromWeb(lifeCategory.getId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+//            list.stream()
+//                    .map(lifeCategory -> new LifeCategorySpiderThread(lifeCategory.getId(), this))
+//                    .forEach(ThreadPoolExecutors.pool::execute);
         }
     }
 }

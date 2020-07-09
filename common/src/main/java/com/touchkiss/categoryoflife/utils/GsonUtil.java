@@ -19,6 +19,7 @@ public class GsonUtil {
             return GSON.fromJson(json, clazz);
         }catch (Exception e){
             e.printStackTrace();
+            log.error("待转换的json：{}",json);
             return null;
         }
     }
@@ -28,7 +29,7 @@ public class GsonUtil {
             return GSON.fromJson(json, type);
         } catch (Exception e) {
             e.printStackTrace();
-            log.info(json);
+            log.error("待转换的json：{}",json);
             return null;
         }
     }

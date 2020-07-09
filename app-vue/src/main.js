@@ -8,7 +8,7 @@ import axios from 'axios'
 import animated from 'animate.css'
 
 axios.defaults.timeout = 50000
-axios.defaults.baseURL = 'http://192.168.8.67:8090/'
+// axios.defaults.baseURL = 'http://192.168.1.11:8090/'
 
 Vue.config.productionTip = false
 Vue.prototype._$axios = axios
