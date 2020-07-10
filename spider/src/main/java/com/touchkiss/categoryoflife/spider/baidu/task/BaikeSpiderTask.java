@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Touchkiss
  */
-@Component
+//@Component
 @Slf4j
 public class BaikeSpiderTask {
     @Autowired

@@ -1,7 +1,7 @@
-package com.touchkiss.categoryoflife.species2000cn.controller;
+package com.touchkiss.categoryoflife.spider.species2000cn.controller;
 
-import com.touchkiss.categoryoflife.species2000cn.bean.TreeItemResponse;
-import com.touchkiss.categoryoflife.species2000cn.services.Species2000CnService;
+import com.touchkiss.categoryoflife.spider.species2000cn.bean.TreeItemResponse;
+import com.touchkiss.categoryoflife.spider.species2000cn.services.Species2000CnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

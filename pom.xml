@@ -9,7 +9,6 @@
         <module>manager-web</module>
         <module>spider</module>
         <module>es-common</module>
-        <module>species2000cn-spider</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

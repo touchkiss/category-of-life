@@ -1,19 +1,5 @@
 package com.touchkiss.categoryoflife.spider.baidu;
 
-import com.touchkiss.categoryoflife.spider.baidu.bean.BaikeItem;
-import com.touchkiss.categoryoflife.spider.baidu.services.impl.BaikeSpiderServiceImpl;
-import com.touchkiss.categoryoflife.utils.NumberUtil;
-import com.touchkiss.categoryoflife.utils.StringUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.util.CollectionUtils;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -45,83 +31,83 @@ public class BaikeTest {
         return source.replace(" 编辑", "").replace(" ", "").replaceAll("[ \\[]*[\\u2460-\\u277f-]+[\\] ]*", "").replaceAll("[ ]*\\[[ ]*[0-9-]+[ ]*\\][ ]*", "").replaceAll("（[见如]*图[0-9-]+）", "");
     }
 
-    static InnerBaike fetchBaike(String startUrl) {
-        try {
-            Document document = Jsoup.parse(new URL(startUrl), 5000);
-            String documentTitle = StringUtil.substringAtIndexOf(document.title(), " ", "（", "_");
-            Elements elementsByClass = document.getElementsByClass("main-content");
-            Map<String, String> properties = new HashMap<>();
-            if (!CollectionUtils.isEmpty(elementsByClass)) {
-                Iterator<Element> iterator = elementsByClass.get(0).getAllElements().iterator();
-                final StringBuilder title = new StringBuilder();
-                final StringBuilder contentBuilder = new StringBuilder();
-                Stack<String> titleStack = new Stack<>();
-                Stack<Integer> levelStack = new Stack<>();
-                while (iterator.hasNext()) {
-                    Element next = iterator.next();
-                    String currentText = next.text();
-                    if (next.hasClass("lemma-summary")) {
-                        title.append("简介");
-                        contentBuilder.append(currentText);
-                        properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
-                        title.delete(0, title.length());
-                        contentBuilder.delete(0, contentBuilder.length());
-                    } else if (next.hasClass("basic-info")) {
-                        next.getAllElements().forEach(basicInfoBlock -> {
-                            basicInfoBlock.getAllElements().forEach(basicInfoItem -> {
-                                if (basicInfoItem.hasClass("name")) {
-                                    title.append(basicInfoItem.text());
-                                } else if (basicInfoItem.hasClass("value")) {
-                                    contentBuilder.append(basicInfoItem.text());
-                                    properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
-                                    title.delete(0, title.length());
-                                    contentBuilder.delete(0, contentBuilder.length());
-                                }
-                            });
-                        });
-                    } else if (next.hasClass("para-title")) {
-                            properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
-                            title.delete(0, title.length());
-                            contentBuilder.delete(0, contentBuilder.length());
-                            title.append(currentText);
-                    } else if (next.hasClass("para")) {
-                        contentBuilder.append(currentText);
-                    }
-                }
-                if (title.length() > 0) {
-                    properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
-                    title.delete(0, title.length());
-                    contentBuilder.delete(0, contentBuilder.length());
-                }
-            }
-            InnerBaike innerBaike = new InnerBaike();
-            innerBaike.setTitle(documentTitle);
-            innerBaike.setProperties(properties);
-            return innerBaike;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static class InnerBaike {
-        private String title;
-        private Map<String, String> properties;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Map<String, String> getProperties() {
-            return properties;
-        }
-
-        public void setProperties(Map<String, String> properties) {
-            this.properties = properties;
-        }
-    }
+//    static InnerBaike fetchBaike(String startUrl) {
+//        try {
+//            Document document = Jsoup.parse(new URL(startUrl), 5000);
+//            String documentTitle = StringUtil.substringAtIndexOf(document.title(), " ", "（", "_");
+//            Elements elementsByClass = document.getElementsByClass("main-content");
+//            Map<String, String> properties = new HashMap<>();
+//            if (!CollectionUtils.isEmpty(elementsByClass)) {
+//                Iterator<Element> iterator = elementsByClass.get(0).getAllElements().iterator();
+//                final StringBuilder title = new StringBuilder();
+//                final StringBuilder contentBuilder = new StringBuilder();
+//                Stack<String> titleStack = new Stack<>();
+//                Stack<Integer> levelStack = new Stack<>();
+//                while (iterator.hasNext()) {
+//                    Element next = iterator.next();
+//                    String currentText = next.text();
+//                    if (next.hasClass("lemma-summary")) {
+//                        title.append("简介");
+//                        contentBuilder.append(currentText);
+//                        properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
+//                        title.delete(0, title.length());
+//                        contentBuilder.delete(0, contentBuilder.length());
+//                    } else if (next.hasClass("basic-info")) {
+//                        next.getAllElements().forEach(basicInfoBlock -> {
+//                            basicInfoBlock.getAllElements().forEach(basicInfoItem -> {
+//                                if (basicInfoItem.hasClass("name")) {
+//                                    title.append(basicInfoItem.text());
+//                                } else if (basicInfoItem.hasClass("value")) {
+//                                    contentBuilder.append(basicInfoItem.text());
+//                                    properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
+//                                    title.delete(0, title.length());
+//                                    contentBuilder.delete(0, contentBuilder.length());
+//                                }
+//                            });
+//                        });
+//                    } else if (next.hasClass("para-title")) {
+//                            properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
+//                            title.delete(0, title.length());
+//                            contentBuilder.delete(0, contentBuilder.length());
+//                            title.append(currentText);
+//                    } else if (next.hasClass("para")) {
+//                        contentBuilder.append(currentText);
+//                    }
+//                }
+//                if (title.length() > 0) {
+//                    properties.put(removePreferences(title.toString()).replace(documentTitle, ""), removePreferences(contentBuilder.toString()));
+//                    title.delete(0, title.length());
+//                    contentBuilder.delete(0, contentBuilder.length());
+//                }
+//            }
+//            InnerBaike innerBaike = new InnerBaike();
+//            innerBaike.setTitle(documentTitle);
+//            innerBaike.setProperties(properties);
+//            return innerBaike;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//    public static class InnerBaike {
+//        private String title;
+//        private Map<String, String> properties;
+//
+//        public String getTitle() {
+//            return title;
+//        }
+//
+//        public void setTitle(String title) {
+//            this.title = title;
+//        }
+//
+//        public Map<String, String> getProperties() {
+//            return properties;
+//        }
+//
+//        public void setProperties(Map<String, String> properties) {
+//            this.properties = properties;
+//        }
+//    }
 }

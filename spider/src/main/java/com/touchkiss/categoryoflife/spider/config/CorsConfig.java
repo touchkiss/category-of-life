@@ -1,4 +1,4 @@
-package com.touchkiss.categoryoflife.species2000cn.config;
+package com.touchkiss.categoryoflife.spider.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

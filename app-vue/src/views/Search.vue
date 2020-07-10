@@ -68,7 +68,7 @@ export default {
       if (this.value === '') {
         this.value = this.placeholder
       }
-      await this._$axios.post('/query/' + this.value).then(result => {
+      await this._$axios.post('/baike/query/' + this.value).then(result => {
         this.results = result.data
       })
     },

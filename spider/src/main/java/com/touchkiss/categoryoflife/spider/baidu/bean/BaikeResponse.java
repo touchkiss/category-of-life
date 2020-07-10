@@ -2,19 +2,19 @@ package com.touchkiss.categoryoflife.spider.baidu.bean;
 
 import com.touchkiss.categoryoflife.response.BaseResponse;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created on 2020/04/07 16:58
  *
  * @author Touchkiss
  */
-public class BaikeResponse extends BaseResponse<Map<String, String>> {
-    public void addAllProperties(Map<String, String> properties) {
-        getData().putAll(properties);
+public class BaikeResponse extends BaseResponse<List<BaikeItemResponse>> {
+    public void addAllProperties(List<BaikeItemResponse> items) {
+        getData().addAll(items);
     }
 
     public void addProperty(String key, String value) {
-        getData().put(key, value);
+        getData().add(new BaikeItemResponse(key, value));
     }
 }

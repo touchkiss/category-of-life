@@ -1,9 +1,9 @@
-package com.touchkiss.categoryoflife.species2000cn.services.impl;
+package com.touchkiss.categoryoflife.spider.species2000cn.services.impl;
 
 import com.google.gson.reflect.TypeToken;
-import com.touchkiss.categoryoflife.species2000cn.bean.TreeChildrenItemResponse;
-import com.touchkiss.categoryoflife.species2000cn.bean.TreeItemResponse;
-import com.touchkiss.categoryoflife.species2000cn.services.Species2000CnService;
+import com.touchkiss.categoryoflife.spider.species2000cn.bean.TreeChildrenItemResponse;
+import com.touchkiss.categoryoflife.spider.species2000cn.bean.TreeItemResponse;
+import com.touchkiss.categoryoflife.spider.species2000cn.services.Species2000CnService;
 import com.touchkiss.categoryoflife.utils.GsonUtil;
 import com.touchkiss.categoryoflife.utils.HttpUtil;
 import org.apache.commons.lang3.ArrayUtils;

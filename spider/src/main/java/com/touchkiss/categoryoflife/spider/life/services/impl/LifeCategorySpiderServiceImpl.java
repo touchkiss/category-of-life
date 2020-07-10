@@ -116,7 +116,7 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
             put("id_get","5000000");
             put("fetched", "0");
             put("type_ne", "species");
-            put("limit", "limit 3");
+            put("limit", "limit 5");
         }});
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(lifeCategory -> {

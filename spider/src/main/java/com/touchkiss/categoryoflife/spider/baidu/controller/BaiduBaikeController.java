@@ -1,18 +1,19 @@
 package com.touchkiss.categoryoflife.spider.baidu.controller;
 
 import com.touchkiss.categoryoflife.es.repositories.impl.BaseRepositoryImpl;
-import com.touchkiss.categoryoflife.spider.baidu.bean.BaikeResponse;
+import com.touchkiss.categoryoflife.spider.baidu.bean.BaikeItemResponse;
 import com.touchkiss.categoryoflife.spider.baidu.bean.ESBaikeItem;
-import com.touchkiss.categoryoflife.spider.baidu.services.BaikeSpiderService;
+import com.touchkiss.categoryoflife.spider.baidu.services.BaikeService;
 import com.touchkiss.categoryoflife.spider.constants.RedisConstants;
 import com.touchkiss.categoryoflife.utils.StringUtil;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,8 +28,10 @@ public class BaiduBaikeController {
     private BaseRepositoryImpl baseRepository;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    //    @Autowired
+//    private BaikeSpiderService baikeSpiderService;
     @Autowired
-    private BaikeSpiderService baikeSpiderService;
+    private BaikeService baikeService;
 
     @RequestMapping("createIndex")
     public CreateIndexResponse createIndex() {
@@ -43,9 +46,14 @@ public class BaiduBaikeController {
         Long add = stringRedisTemplate.opsForSet().add(RedisConstants.BAIKE_NOT_STORED_TO_ES, StringUtil.toStringArray(keys));
         System.out.println("将" + add + "个key放入redsi");
     }
-    @RequestMapping("query")
-    public BaikeResponse queryBaike(@RequestParam("word") String word) {
-        return baikeSpiderService.queryBaike(word);
+
+    //    @RequestMapping("query")
+//    public BaikeResponse queryBaike(@RequestParam("word") String word) {
+//        return baikeSpiderService.queryBaike(word);
+//    }
+    @RequestMapping("query/{word}")
+    public List<BaikeItemResponse> query(@PathVariable("word") String word) {
+        return baikeService.query(word);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.touchkiss.categoryoflife.species2000cn.bean;
+package com.touchkiss.categoryoflife.spider.species2000cn.bean;
 
 import lombok.Data;
 

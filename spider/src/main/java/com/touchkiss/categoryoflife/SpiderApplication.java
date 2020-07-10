@@ -3,6 +3,7 @@ package com.touchkiss.categoryoflife;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -16,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAspectJAutoProxy
-@ComponentScan({"com.touchkiss.categoryoflife.species2000cn.*.*"})
+@ServletComponentScan
 public class SpiderApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(SpiderApplication.class);

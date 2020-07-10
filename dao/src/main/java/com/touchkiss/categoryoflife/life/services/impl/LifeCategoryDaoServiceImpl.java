@@ -28,7 +28,6 @@ public class LifeCategoryDaoServiceImpl implements LifeCategoryDaoService {
     LifeCategoryDaoM lifeCategoryDaoM;
 
     @Override
-    @Timer
     public boolean insert(LifeCategory lifeCategory) {
         long currentTimeMillis = System.currentTimeMillis();
         if (lifeCategory.getCreateTime() == null) {

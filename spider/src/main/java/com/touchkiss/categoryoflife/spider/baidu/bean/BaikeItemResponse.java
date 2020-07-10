@@ -1,4 +1,4 @@
-package com.touchkiss.categoryoflife.species2000cn.bean;
+package com.touchkiss.categoryoflife.spider.baidu.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaikeResponse {
+public class BaikeItemResponse {
     private String key;
     private String value;
 }

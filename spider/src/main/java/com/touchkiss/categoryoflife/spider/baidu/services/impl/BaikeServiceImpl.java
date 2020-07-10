@@ -1,8 +1,8 @@
-package com.touchkiss.categoryoflife.species2000cn.services.impl;
+package com.touchkiss.categoryoflife.spider.baidu.services.impl;
 
-import com.touchkiss.categoryoflife.species2000cn.utils.CategoryUtils;
-import com.touchkiss.categoryoflife.species2000cn.bean.BaikeResponse;
-import com.touchkiss.categoryoflife.species2000cn.services.BaikeService;
+import com.touchkiss.categoryoflife.spider.baidu.bean.BaikeItemResponse;
+import com.touchkiss.categoryoflife.spider.baidu.util.CategoryUtils;
+import com.touchkiss.categoryoflife.spider.baidu.services.BaikeService;
 import com.touchkiss.categoryoflife.utils.NumberUtil;
 import com.touchkiss.categoryoflife.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -29,8 +29,8 @@ public class BaikeServiceImpl implements BaikeService {
     public final static String SPECIAL_CHARCODE = "[\"!@#$%^&*（）\\(\\)\\-_=+…·\\~`:'“”‘、\\[\\]|\\\\?/,？\\.，。：；;{}]";
 
     @Override
-    public List<BaikeResponse> query(String word) {
-        List<BaikeResponse> result = new ArrayList<>();
+    public List<BaikeItemResponse> query(String word) {
+        List<BaikeItemResponse> result = new ArrayList<>();
         try {
             Set<String>titleSet=new HashSet<>();
             String key = word, property = "";
@@ -71,16 +71,9 @@ public class BaikeServiceImpl implements BaikeService {
                         }
                         titleSet.add(tempTitle);
                         String tempValue = removePreferences(contentBuilder.toString());
-                        BaikeResponse tempItem = new BaikeResponse(tempTitle, tempValue);
+                        BaikeItemResponse tempItem = new BaikeItemResponse(tempTitle, tempValue);
                         if (tempTitle.contains(key)){
                             return new ArrayList(Collections.singletonList(tempItem));
-                        }
-                        if (propertyNotBlank) {
-                            for (String k : keySet) {
-                                if (tempTitle.contains(k)) {
-                                    return new ArrayList(Collections.singletonList(tempItem));
-                                }
-                            }
                         }
                         result.add(tempItem);
                         title.delete(0, title.length());
@@ -98,16 +91,9 @@ public class BaikeServiceImpl implements BaikeService {
                                     }
                                     titleSet.add(tempTitle2);
                                     String tempValue2 = removePreferences(basicInfoItem.text());
-                                    BaikeResponse tempItem2 = new BaikeResponse(tempTitle2, tempValue2);
+                                    BaikeItemResponse tempItem2 = new BaikeItemResponse(tempTitle2, tempValue2);
                                     if (tempTitle2.contains(finalKey)) {
                                         return new ArrayList(Collections.singletonList(tempItem2));
-                                    }
-                                    if (propertyNotBlank) {
-                                        for (String k : keySet) {
-                                            if (tempTitle2.contains(k)) {
-                                                return new ArrayList(Collections.singletonList(tempItem2));
-                                            }
-                                        }
                                     }
                                     result.add(tempItem2);
                                     title.delete(0, title.length());
@@ -133,16 +119,9 @@ public class BaikeServiceImpl implements BaikeService {
                                     }
                                     titleSet.add(tempTitle3);
                                     String tempValue3 = removePreferences(contentBuilder.toString());
-                                    BaikeResponse tempItem3 = new BaikeResponse(tempTitle3, tempValue3);
+                                    BaikeItemResponse tempItem3 = new BaikeItemResponse(tempTitle3, tempValue3);
                                     if (tempTitle3.contains(key)) {
                                         return new ArrayList(Collections.singletonList(tempItem3));
-                                    }
-                                    if (propertyNotBlank) {
-                                        for (String k : keySet) {
-                                            if (tempTitle3.contains(k)) {
-                                                return new ArrayList(Collections.singletonList(tempItem3));
-                                            }
-                                        }
                                     }
                                     result.add(tempItem3);
                                     contentBuilder.delete(0, contentBuilder.length());
@@ -161,6 +140,15 @@ public class BaikeServiceImpl implements BaikeService {
                         }
                     } else if (next.hasClass("para")) {
                         contentBuilder.append(currentText);
+                    }
+                }
+            }
+            if (propertyNotBlank) {
+                for (BaikeItemResponse baikeItemResponse : result) {
+                    for (String k : keySet) {
+                        if (baikeItemResponse.getKey().contains(k)) {
+                            return new ArrayList(Collections.singletonList(baikeItemResponse));
+                        }
                     }
                 }
             }
