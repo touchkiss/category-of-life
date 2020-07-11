@@ -34,3 +34,10 @@ spring:
         min-idle: 0
     port: 6379
     timeout: 20000
+#logging:
+#  level:
+#    com:
+#      touchkiss:
+#        categoryoflife:
+#          life:
+#            mapper: debug

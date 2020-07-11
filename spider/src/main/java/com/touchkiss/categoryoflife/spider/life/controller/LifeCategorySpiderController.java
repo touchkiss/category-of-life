@@ -36,11 +36,11 @@ public class LifeCategorySpiderController implements BaseController {
         }
         return 0;
     }
-    @RequestMapping("list")
-    List<LifeCategory>list(HttpServletRequest request){
-        HashMap<String, String> map = parameterMap(request);
-        return lifeCategoryDaoService.queryLifeCategoryList(map);
-    }
+//    @RequestMapping("list")
+//    List<LifeCategory>list(HttpServletRequest request){
+//        HashMap<String, String> map = parameterMap(request);
+//        return lifeCategoryDaoService.queryLifeCategoryList(map);
+//    }
 }
 
 

@@ -10,6 +10,11 @@ const routes = [
     redirect: 'list'
   },
   {
+    path: '/home',
+    name: 'home',
+    component: () => import('../views/Home')
+  },
+  {
     path: '/list',
     name: 'list',
     component: () => import('../views/list')
@@ -22,6 +27,11 @@ const routes = [
   {
     path: '/search',
     name: 'search',
+    component: () => import('../views/Search.vue')
+  },
+  {
+    path: '/search/:search',
+    name: 'search2',
     component: () => import('../views/Search.vue')
   }
 ]

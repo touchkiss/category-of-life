@@ -113,22 +113,25 @@ public class LifeCategorySpiderServiceImpl implements LifeCategorySpiderService 
     @Override
     public void autoFetch() {
         List<LifeCategory> list = lifeCategoryDaoService.queryLifeCategoryList(new HashMap() {{
-            put("id_get","5000000");
-            put("fetched", "0");
+            put("id_get",5000000);
+            put("fetched_eq", 0);
             put("type_ne", "species");
             put("limit", "limit 5");
         }});
         if (!CollectionUtils.isEmpty(list)) {
-            list.forEach(lifeCategory -> {
-                try {
-                    fetchLifeCategoryFromWeb(lifeCategory.getId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-//            list.stream()
-//                    .map(lifeCategory -> new LifeCategorySpiderThread(lifeCategory.getId(), this))
-//                    .forEach(ThreadPoolExecutors.pool::execute);
+//            list.forEach(lifeCategory -> {
+//                try {
+//                    if (!lifeCategory.getFetched()){
+//                        fetchLifeCategoryFromWeb(lifeCategory.getId());
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+            list.stream()
+                    .filter(lifeCategory -> !lifeCategory.getFetched())
+                    .map(lifeCategory -> new LifeCategorySpiderThread(lifeCategory.getId(), this))
+                    .forEach(ThreadPoolExecutors.pool::execute);
         }
     }
 }

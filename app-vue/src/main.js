@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import './plugins/axios'
-import { Button, CellItem, Field, Icon, Switch, Popup, PopupTitleBar, Transition, InputItem, TextareaItem } from 'mand-mobile'
+import { CellItem, Field, Icon, Switch, Popup, PopupTitleBar, Transition, InputItem, TextareaItem, TabBar, Swiper, SwiperItem } from 'mand-mobile'
+import { Button } from 'element-ui'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
 import animated from 'animate.css'
+import './plugins/element.js'
 
 axios.defaults.timeout = 50000
-// axios.defaults.baseURL = 'http://192.168.8.67:8090/'
+axios.defaults.baseURL = 'http://192.168.8.67:8090/'
 
 Vue.config.productionTip = false
 Vue.prototype._$axios = axios
@@ -22,6 +24,9 @@ Vue.component(PopupTitleBar.name, PopupTitleBar)
 Vue.component(Transition.name, Transition)
 Vue.component(InputItem.name, InputItem)
 Vue.component(TextareaItem.name, TextareaItem)
+Vue.component(TabBar.name, TabBar)
+Vue.component(Swiper.name, Swiper)
+Vue.component(SwiperItem.name, SwiperItem)
 
 Vue.use(animated)
 

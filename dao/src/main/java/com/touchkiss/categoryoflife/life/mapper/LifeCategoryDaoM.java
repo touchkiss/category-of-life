@@ -31,7 +31,7 @@ public interface LifeCategoryDaoM {
 
     LifeCategory selectById(Integer id);
 
-    List<LifeCategory> queryLifeCategoryList(@Param("wheres") Map<String, String> wheres);
+    List<LifeCategory> queryLifeCategoryList(@Param("wheres") Map<String, Object> wheres);
 
     Page<LifeCategory> findByPage(@Param("wheres") Map<String, String> wheres);
 

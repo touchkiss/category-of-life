@@ -218,7 +218,7 @@
             where 1 = 1
             <foreach collection="wheres.entrySet()" item="value" index="key">
                 <bind name="valid" value="1"/>
-                <if test="key != null and key != '' and key.trim() != '' and ((key.endsWith('_isn') or key.endsWith('_isnn')) or (!key.endsWith('_isn') and !key.endsWith('_isnn') and value != null and value != ''))">
+                <if test="key != null and key.trim() != ''">
                     <choose>
                         <when test="key == 'id' or key.startsWith('id_')">and id</when>
                         <when test="key == 'snId' or key.startsWith('snId_')">and snId</when>

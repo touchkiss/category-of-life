@@ -26,7 +26,7 @@ public interface LifeCategoryDaoService {
 
     LifeCategory selectById(Integer id);
 
-    List<LifeCategory> queryLifeCategoryList(Map<String, String> map);
+    List<LifeCategory> queryLifeCategoryList(Map<String, Object> map);
 
     Page<LifeCategory> findByPage(int pageNo, int pageSize, Map<String, String> map);
 

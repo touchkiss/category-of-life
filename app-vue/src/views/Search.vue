@@ -56,7 +56,17 @@ export default {
       placeholder: ''
     }
   },
+  watch: {
+    '$route.path' (newVal, oldVal) {
+      this.value = this.$route.params.search
+      this.search()
+    }
+  },
   created () {
+    if (this.$route.params.search) {
+      this.value = this.$route.params.search
+      this.search()
+    }
   },
   computed: {
     size () {

@@ -79,7 +79,7 @@ public class LifeCategoryDaoServiceImpl implements LifeCategoryDaoService {
     }
 
     @Override
-    public List<LifeCategory> queryLifeCategoryList(Map<String, String> map) {
+    public List<LifeCategory> queryLifeCategoryList(Map<String, Object> map) {
         return lifeCategoryDaoM.queryLifeCategoryList(map);
     }
 
