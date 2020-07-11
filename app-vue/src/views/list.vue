@@ -12,9 +12,9 @@
     <div class="list-field">
       <md-field>
         <md-cell-item v-for="item in items" :key="item.id" :title="item.cnName" :brief="item.className"
-                      @click="showData(item)">
+            @click="showData(item)">
           <i v-if="item.parent" class="md-icon icon-font md-icon-arrow-right lg" slot="right"
-             @click.stop="$router.push('/list/' +item.id)"></i>
+            @click.stop="$router.push('/list/' +item.id)"></i>
         </md-cell-item>
       </md-field>
     </div>
@@ -22,18 +22,57 @@
       v-model="showPopup"
       position="bottom"
     >
-      <md-popup-title-bar
-        :title="popupItem.cnName"
-        :describe="popupItem.enName"
-        large-radius
-      ></md-popup-title-bar>
-      <div class="popup-main">
-        <iframe v-if="popupItem.cnName" :src="'https://baike.baidu.com/item/'+popupItem.cnName"></iframe>
-      </div>
-    </md-popup>
+    <md-popup-title-bar
+      :title="popupItem.cnName"
+      :describe="popupItem.enName"
+      large-radius
+    ></md-popup-title-bar>
+    <div class="popup-main">
+      <iframe v-if="popupItem.cnName" :src="'https://baike.baidu.com/item/'+popupItem.cnName"></iframe>
+    </div>
+  </md-popup>
   </div>
 </template>
-
+<script>
+export default {
+  props: ['id'],
+  data () {
+    return {
+      items: [],
+      title: '物种百科',
+      showPopup: false,
+      popupItem: {}
+    }
+  },
+  watch: {
+    '$route.path' (newVal, oldVal) {
+      this.getList(this.$route.params.id)
+    }
+  },
+  created () {
+    this.getList(this.$route.params.id)
+  },
+  methods: {
+    async getList (id) {
+      if( id === undefined){
+        id = ''
+      }
+      let formdata = new FormData();
+      formdata.append('id',id);
+      await this.$store.dispatch('SpeciesList',formdata).then(res=>{
+        if (res.code == 200) {
+          this.items = res.data
+        }
+      })
+    },
+    showData (item) {
+      this.showPopup = true
+      this.popupItem = item
+      this.$set(this.popupItem, 'bottom', true)
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
   .scroll-list-wrap {
     background: #f3f4f5;
@@ -74,12 +113,10 @@
 
     .md-popup-title-bar {
       height: 1rem !important;
-
       div {
         padding-top: 0.1rem !important;
       }
     }
-
     .popup-main {
       background: #ecf6ff;
       min-height: 8rem;
@@ -91,42 +128,4 @@
       }
     }
   }
-
 </style>
-
-<script>
-import qs from 'qs'
-
-export default {
-  props: ['id'],
-  data () {
-    return {
-      items: [],
-      title: '物种百科',
-      showPopup: false,
-      popupItem: {}
-    }
-  },
-  watch: {
-    '$route.path' (newVal, oldVal) {
-      this.getList(this.$route.params.id)
-    }
-  },
-  created () {
-    this.getList(this.$route.params.id)
-  },
-  methods: {
-    async getList (id) {
-      const url = '/species2000cn/browse/' + (id || '')
-      await this._$axios.post(url, qs.stringify({ otherParam: 'zTreeAsyncTest' })).then(result => {
-        this.items = result.data
-      })
-    },
-    showData (item) {
-      this.showPopup = true
-      this.popupItem = item
-      this.$set(this.popupItem, 'bottom', true)
-    }
-  }
-}
-</script>

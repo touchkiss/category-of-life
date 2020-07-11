@@ -32,20 +32,6 @@
     </md-field>
   </div>
 </template>
-
-<style lang="scss">
-  .search {
-    margin-right: 0.3rem;
-  }
-
-  .md-textarea-item__textarea {
-    padding: 0.2rem!important;
-    color: #111a34 !important;
-    font: 500 0.32rem Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
-    text-indent: 0.5rem!important;
-  }
-</style>
-
 <script>
 export default {
   data () {
@@ -78,8 +64,12 @@ export default {
       if (this.value === '') {
         this.value = this.placeholder
       }
-      await this._$axios.post('/baike/query/' + this.value).then(result => {
-        this.results = result.data
+      let formdata = new FormData();
+      formdata.append('word',this.value);
+      await this.$store.dispatch('SpeciesSearch',formdata).then(res=>{
+        if (res.code == 200) {
+          this.results = res.data
+        }
       })
     },
     randomPlaceholder () {
@@ -89,3 +79,15 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .search {
+    margin-right: 0.3rem;
+  }
+
+  .md-textarea-item__textarea {
+    padding: 0.2rem!important;
+    color: #111a34 !important;
+    font: 500 0.32rem Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
+    text-indent: 0.5rem!important;
+  }
+</style>
