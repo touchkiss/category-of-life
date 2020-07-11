@@ -1,7 +1,7 @@
-  // 引入路由配置文件
-  const URL = require('./config/url')
- // 定义公共路由
-  process.env.VUE_APP_BASE_URL = URL[process.env.ENV]
+// 引入路由配置文件
+const URL = require('./config/url')
+// 定义公共路由
+process.env.VUE_APP_BASE_URL = URL[process.env.ENV]
 module.exports = {
   outputDir: 'dist',
   indexPath: 'index.html',
@@ -11,10 +11,10 @@ module.exports = {
       entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
-      chunks: ['chunk-vendors','chunk-common','index']
+      chunks: ['chunk-vendors', 'chunk-common', 'index']
     }
   },
-  assetsDir: "assets",
+  assetsDir: 'assets',
   runtimeCompiler: false,
   css: {
     loaderOptions: {
@@ -35,20 +35,20 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     open: true,
-    host: 'localhost',
-    port: 8080,
+    host: '192.168.1.11',
+    port: 8091,
     https: false,
     hotOnly: false,
     proxy: {
-        //配置跨域
-        '/': {
-            target: process.env.VUE_APP_BASE_URL,
-            ws: true,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/': ''
-            }
+      // 配置跨域
+      '/': {
+        target: process.env.VUE_APP_BASE_URL,
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
         }
+      }
     }
   }
 }

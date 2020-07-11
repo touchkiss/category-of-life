@@ -64,10 +64,10 @@ export default {
       if (this.value === '') {
         this.value = this.placeholder
       }
-      let formdata = new FormData();
-      formdata.append('word',this.value);
-      await this.$store.dispatch('SpeciesSearch',formdata).then(res=>{
-        if (res.code == 200) {
+      const formdata = new FormData()
+      formdata.append('word', this.value)
+      await this.$store.dispatch('SpeciesSearch', formdata).then(res => {
+        if (res.code === 200) {
           this.results = res.data
         }
       })
@@ -85,9 +85,9 @@ export default {
   }
 
   .md-textarea-item__textarea {
-    padding: 0.2rem!important;
+    padding: 0.2rem !important;
     color: #111a34 !important;
     font: 500 0.32rem Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
-    text-indent: 0.5rem!important;
+    text-indent: 0.5rem !important;
   }
 </style>

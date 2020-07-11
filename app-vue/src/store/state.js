@@ -1,3 +1,2 @@
-const state = {
-}
-export default state;
+const state = {}
+export default state

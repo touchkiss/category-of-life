@@ -1,3 +1,2 @@
-const getter = {
-}
-export default getter;
+const getter = {}
+export default getter

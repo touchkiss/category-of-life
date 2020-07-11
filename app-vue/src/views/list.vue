@@ -12,9 +12,9 @@
     <div class="list-field">
       <md-field>
         <md-cell-item v-for="item in items" :key="item.id" :title="item.cnName" :brief="item.className"
-            @click="showData(item)">
+                      @click="showData(item)">
           <i v-if="item.parent" class="md-icon icon-font md-icon-arrow-right lg" slot="right"
-            @click.stop="$router.push('/list/' +item.id)"></i>
+             @click.stop="$router.push('/list/' +item.id)"></i>
         </md-cell-item>
       </md-field>
     </div>
@@ -22,15 +22,15 @@
       v-model="showPopup"
       position="bottom"
     >
-    <md-popup-title-bar
-      :title="popupItem.cnName"
-      :describe="popupItem.enName"
-      large-radius
-    ></md-popup-title-bar>
-    <div class="popup-main">
-      <iframe v-if="popupItem.cnName" :src="'https://baike.baidu.com/item/'+popupItem.cnName"></iframe>
-    </div>
-  </md-popup>
+      <md-popup-title-bar
+        :title="popupItem.cnName"
+        :describe="popupItem.enName"
+        large-radius
+      ></md-popup-title-bar>
+      <div class="popup-main">
+        <iframe v-if="popupItem.cnName" :src="'https://baike.baidu.com/item/'+popupItem.cnName"></iframe>
+      </div>
+    </md-popup>
   </div>
 </template>
 <script>
@@ -54,13 +54,13 @@ export default {
   },
   methods: {
     async getList (id) {
-      if( id === undefined){
+      if (id === undefined) {
         id = ''
       }
-      let formdata = new FormData();
-      formdata.append('id',id);
-      await this.$store.dispatch('SpeciesList',formdata).then(res=>{
-        if (res.code == 200) {
+      const formdata = new FormData()
+      formdata.append('id', id)
+      await this.$store.dispatch('SpeciesList', formdata).then(res => {
+        if (res.code === 200) {
           this.items = res.data
         }
       })
@@ -90,7 +90,7 @@ export default {
         line-height: 1;
       }
 
-      .home,.search {
+      .home, .search {
         font-size: 0.6rem;
         color: #0099CC;
       }
@@ -101,7 +101,8 @@ export default {
         font-weight: 500;
         color: #111a34;
       }
-      .search{
+
+      .search {
         right: 0.1rem;
         position: absolute;
       }
@@ -113,10 +114,12 @@ export default {
 
     .md-popup-title-bar {
       height: 1rem !important;
+
       div {
         padding-top: 0.1rem !important;
       }
     }
+
     .popup-main {
       background: #ecf6ff;
       min-height: 8rem;
