@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>category-of-life</artifactId>
-        <groupId>com.touchkiss.categoryoflife</groupId>
+        <artifactId>catelogue-of-life</artifactId>
+        <groupId>com.touchkiss.catelogueoflife</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +24,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.touchkiss.categoryoflife</groupId>
+            <groupId>com.touchkiss.catelogueoflife</groupId>
             <artifactId>dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency><!-- https://mvnrepository.com/artifact/org.fusesource.scalate/scalate-wikitext -->
@@ -48,7 +48,7 @@
             <version>1.13.1</version>
         </dependency>
         <dependency>
-            <groupId>com.touchkiss.categoryoflife</groupId>
+            <groupId>com.touchkiss.catelogueoflife</groupId>
             <artifactId>es-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>
@@ -77,7 +77,7 @@
                     <artifactId>elasticsearch-rest-high-level-client</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.touchkiss.categoryoflife</groupId>
+                    <groupId>com.touchkiss.catelogueoflife</groupId>
                     <artifactId>common</artifactId>
                 </exclusion>
             </exclusions>

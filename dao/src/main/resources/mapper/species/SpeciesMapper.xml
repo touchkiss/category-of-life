@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.touchkiss.categoryoflife.species.mapper.SpeciesDaoM">
-  <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.species.bean.Species">
+<mapper namespace="com.touchkiss.catelogueoflife.species.mapper.SpeciesDaoM">
+  <resultMap id="BaseResultMap" type="com.touchkiss.catelogueoflife.species.bean.Species">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="name_accepted" jdbcType="BIT" property="nameAccepted" />
@@ -25,10 +25,10 @@
   <sql id="Base_Column_List">
     id,name,name_accepted,genus,subgenus,species,infraspecies_marker,infraspecies,author,online_resource,is_extinct,source_database,source_database_url,bibliographic_citation,url,distribution,create_time,last_modify_time
   </sql>
-  <insert id="insert" parameterType="com.touchkiss.categoryoflife.species.bean.Species">
+  <insert id="insert" parameterType="com.touchkiss.catelogueoflife.species.bean.Species">
      insert into t_species(<include refid="Base_Column_List"></include>)
      values (
-     #{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{nameAccepted,jdbcType=BIT},#{genus,jdbcType=VARCHAR},#{subgenus,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{infraspeciesMarker,jdbcType=VARCHAR},#{infraspecies,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{onlineResource,jdbcType=VARCHAR},#{isExtinct,jdbcType=BIT},#{sourceDatabase,jdbcType=VARCHAR},#{sourceDatabaseUrl,jdbcType=VARCHAR},#{bibliographicCitation,jdbcType=LONGVARCHAR},#{url,jdbcType=VARCHAR},#{distribution,jdbcType=LONGVARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+     #{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{nameAccepted,jdbcType=BIT},#{genus,jdbcType=VARCHAR},#{subgenus,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{infraspeciesMarker,jdbcType=VARCHAR},#{infraspecies,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{onlineResource,jdbcType=VARCHAR},#{isExtinct,jdbcType=BIT},#{sourceDatabase,jdbcType=VARCHAR},#{sourceDatabaseUrl,jdbcType=VARCHAR},#{bibliographicCitation,jdbcType=LONGVARCHAR},#{url,jdbcType=VARCHAR},#{distribution,jdbcType=LONGVARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
   </insert>
   <delete id="deleteById" parameterType="java.lang.String">
      delete from t_species

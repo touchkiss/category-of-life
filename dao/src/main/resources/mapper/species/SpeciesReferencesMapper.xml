@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.touchkiss.categoryoflife.species.mapper.SpeciesReferencesDaoM">
-  <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.species.bean.SpeciesReferences">
+<mapper namespace="com.touchkiss.catelogueoflife.species.mapper.SpeciesReferencesDaoM">
+  <resultMap id="BaseResultMap" type="com.touchkiss.catelogueoflife.species.bean.SpeciesReferences">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="species_id" jdbcType="VARCHAR" property="speciesId" />
     <result column="author" jdbcType="VARCHAR" property="author" />
@@ -14,15 +14,15 @@
   <sql id="Base_Column_List">
     id,species_id,author,year,source,create_time,last_modify_time
   </sql>
-  <insert id="insert" parameterType="com.touchkiss.categoryoflife.species.bean.SpeciesReferences">
+  <insert id="insert" parameterType="com.touchkiss.catelogueoflife.species.bean.SpeciesReferences">
      insert into t_species_references(<include refid="Base_Column_List"></include>)
      values (
-     #{id,jdbcType=INTEGER},#{speciesId,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+     #{id,jdbcType=INTEGER},#{speciesId,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
   </insert>
-  <insert id="insertWithoutId" parameterType="com.touchkiss.categoryoflife.species.bean.SpeciesReferences" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertWithoutId" parameterType="com.touchkiss.catelogueoflife.species.bean.SpeciesReferences" useGeneratedKeys="true" keyProperty="id">
      insert into t_species_references(species_id,author,year,source,create_time,last_modify_time)
      values (
-     #{speciesId,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+     #{speciesId,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
   </insert>
   <delete id="deleteById" parameterType="java.lang.Integer">
      delete from t_species_references

@@ -1,5 +1,3 @@
-import com.touchkiss.categoryoflife.utils.HttpUtil;
-
 /**
  * Created on 2020/03/21 16:45
  *

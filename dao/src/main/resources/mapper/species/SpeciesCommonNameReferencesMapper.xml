@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.touchkiss.categoryoflife.species.mapper.SpeciesCommonNameReferencesDaoM">
-  <resultMap id="BaseResultMap" type="com.touchkiss.categoryoflife.species.bean.SpeciesCommonNameReferences">
+<mapper namespace="com.touchkiss.catelogueoflife.species.mapper.SpeciesCommonNameReferencesDaoM">
+  <resultMap id="BaseResultMap" type="com.touchkiss.catelogueoflife.species.bean.SpeciesCommonNameReferences">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="common_name_id" jdbcType="INTEGER" property="commonNameId" />
     <result column="author" jdbcType="VARCHAR" property="author" />
@@ -14,15 +14,15 @@
   <sql id="Base_Column_List">
     id,common_name_id,author,year,source,create_time,last_modify_time
   </sql>
-  <insert id="insert" parameterType="com.touchkiss.categoryoflife.species.bean.SpeciesCommonNameReferences">
+  <insert id="insert" parameterType="com.touchkiss.catelogueoflife.species.bean.SpeciesCommonNameReferences">
      insert into t_species_common_names_references(<include refid="Base_Column_List"></include>)
      values (
-     #{id,jdbcType=INTEGER},#{commonNameId,jdbcType=INTEGER},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+     #{id,jdbcType=INTEGER},#{commonNameId,jdbcType=INTEGER},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
   </insert>
-  <insert id="insertWithoutId" parameterType="com.touchkiss.categoryoflife.species.bean.SpeciesCommonNameReferences" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertWithoutId" parameterType="com.touchkiss.catelogueoflife.species.bean.SpeciesCommonNameReferences" useGeneratedKeys="true" keyProperty="id">
      insert into t_species_common_names_references(common_name_id,author,year,source,create_time,last_modify_time)
      values (
-     #{commonNameId,jdbcType=INTEGER},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT}) 
+     #{commonNameId,jdbcType=INTEGER},#{author,jdbcType=VARCHAR},#{year,jdbcType=INTEGER},#{source,jdbcType=VARCHAR},#{createTime,jdbcType=BIGINT},#{lastModifyTime,jdbcType=BIGINT})
   </insert>
   <delete id="deleteById" parameterType="java.lang.Integer">
      delete from t_species_common_names_references
