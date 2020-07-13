@@ -1,36 +1,19 @@
 package com.touchkiss.catelogueoflife.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Created on 2020/04/07 16:56
  *
  * @author Touchkiss
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseResponse<T> {
     private int code;
     private String msg;
     private T data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }
