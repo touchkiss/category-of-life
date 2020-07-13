@@ -1,17 +1,18 @@
 package com.touchkiss.catelogueoflife.spider.baidu.controller;
 
 import com.touchkiss.catelogueoflife.es.repositories.impl.BaseRepositoryImpl;
+import com.touchkiss.catelogueoflife.response.BaseResponse;
 import com.touchkiss.catelogueoflife.spider.baidu.bean.BaikeItemResponse;
 import com.touchkiss.catelogueoflife.spider.baidu.bean.ESBaikeItem;
 import com.touchkiss.catelogueoflife.spider.baidu.services.BaikeService;
 import com.touchkiss.catelogueoflife.spider.constants.RedisConstants;
 import com.touchkiss.catelogueoflife.utils.StringUtil;
+import org.apache.http.HttpStatus;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -51,9 +52,14 @@ public class BaiduBaikeController {
 //    public BaikeResponse queryBaike(@RequestParam("word") String word) {
 //        return baikeSpiderService.queryBaike(word);
 //    }
-    @RequestMapping("query/{word}")
-    public List<BaikeItemResponse> query(@PathVariable("word") String word) {
-        return baikeService.query(word);
+    @PostMapping("query")
+    public BaseResponse<List<BaikeItemResponse>> query(@RequestParam("word") String word) {
+        List<BaikeItemResponse> query = baikeService.query(word);
+        if (CollectionUtils.isEmpty(query)){
+            return new BaseResponse<>(HttpStatus.SC_NOT_FOUND,"请求的资源不存在",null);
+        }else{
+            return new BaseResponse<>(HttpStatus.SC_OK,"success",query);
+        }
     }
 }
 
