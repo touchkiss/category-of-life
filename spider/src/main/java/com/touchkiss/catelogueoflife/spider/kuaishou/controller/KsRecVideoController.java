@@ -22,9 +22,9 @@ public class KsRecVideoController implements BaseController {
     private KsRecVideoDaoService ksRecVideoDaoService;
 
     @GetMapping("ksRecVideo")
-    public PageResult list(HttpServletRequest request, Integer p, Integer pagesize) {
+    public PageResult list(Integer draw, HttpServletRequest request, Integer p, Integer pagesize) {
         HashMap<String, String> whereMap = parameterMap(request);
-        return new PageResult(ksRecVideoDaoService.findByPage(p == null ? 1 : p, pagesize == null ? 10 : pagesize, whereMap));
+        return new PageResult(draw, ksRecVideoDaoService.findByPage(p == null ? 1 : p, pagesize == null ? 10 : pagesize, whereMap));
     }
 
     @GetMapping("/ksRecVideo/{photoId}")

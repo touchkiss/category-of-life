@@ -16,6 +16,7 @@ public class PageResult {
     private Long count;
     private Long recordsFiltered;
     private List results;
+    private List data;
 
     public PageResult() {
     }
@@ -25,6 +26,7 @@ public class PageResult {
         this.count = recordsTotal;
         this.recordsFiltered = recordsFiltered;
         this.results = results;
+        this.data=results;
     }
 
     /**
@@ -38,11 +40,13 @@ public class PageResult {
         this.count = page == null ? 0 : page.getTotal();
         this.recordsFiltered = page == null ? 0 : page.getTotal();
         this.results = page == null ? null : page.getResult();
+        this.data=results;
     }
 
     public PageResult(Page page){
         this.count = page == null ? 0 : page.getTotal();
         this.recordsFiltered = page == null ? 0 : page.getTotal();
         this.results = page == null ? null : page.getResult();
+        this.data=results;
     }
 }

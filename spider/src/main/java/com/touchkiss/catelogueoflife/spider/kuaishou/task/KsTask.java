@@ -40,23 +40,25 @@ public class KsTask {
             ksRecommendRequest.setThirdPartyUserId(Integer.parseInt(userId));
             KsRecommendResponse recommend = ksSpiderService.recommend(ksRecommendRequest);
             if (recommend != null) {
-                recommend.getFeeds().stream().filter(feedsBean -> ksRecVideoDaoService.selectByPhotoId(feedsBean.getPhotoId()) == null).forEach(feedsBean -> {
-                    KsRecVideo ksRecVideo = new KsRecVideo();
-                    ksRecVideo.setPhotoId(feedsBean.getPhotoId());
-                    ksRecVideo.setSourceUserId(String.valueOf(feedsBean.getUserId()));
-                    ksRecVideo.setSourceKuaiId(feedsBean.getKwaiId());
-                    ksRecVideo.setSourceUserName(feedsBean.getUserName());
-                    ksRecVideo.setTitle(feedsBean.getCaption());
-                    ksRecVideo.setUploadTime(feedsBean.getTimestamp());
-                    SimpleDateFormat yyyymmdd = new SimpleDateFormat("yyyyMMdd");
-                    ksRecVideo.setUploadDate(Long.parseLong(yyyymmdd.format(new Date(feedsBean.getTimestamp()))));
-                    ksRecVideo.setLikeCount((long) feedsBean.getLikeCount());
-                    ksRecVideo.setCommentCount((long) feedsBean.getCommentCount());
-                    ksRecVideo.setShareCount((long) feedsBean.getShareCount());
-                    ksRecVideo.setViewCount((long) feedsBean.getViewCount());
-                    ksRecVideo.setVideoUrl(feedsBean.getMainMvUrls().get(0).getUrl());
-                    ksRecVideo.setCreateDate(Long.parseLong(yyyymmdd.format(new Date())));
-                    ksRecVideoDaoService.insert(ksRecVideo);
+                recommend.getFeeds().stream().filter(KsRecommendResponse.FeedsBean::isVideo).filter(feedsBean -> ksRecVideoDaoService.selectByPhotoId(feedsBean.getPhotoId()) == null).forEach(feedsBean -> {
+                    try {
+                        KsRecVideo ksRecVideo = new KsRecVideo();
+                        ksRecVideo.setPhotoId(feedsBean.getPhotoId());
+                        ksRecVideo.setSourceUserId(String.valueOf(feedsBean.getUserId()));
+                        ksRecVideo.setSourceKuaiId(feedsBean.getKwaiId());
+                        ksRecVideo.setSourceUserName(feedsBean.getUserName());
+                        ksRecVideo.setTitle(feedsBean.getCaption());
+                        ksRecVideo.setUploadTime(feedsBean.getTimestamp());
+                        SimpleDateFormat yyyymmdd = new SimpleDateFormat("yyyyMMdd");
+                        ksRecVideo.setUploadDate(Long.parseLong(yyyymmdd.format(new Date(feedsBean.getTimestamp()))));
+                        ksRecVideo.setLikeCount((long) feedsBean.getLikeCount());
+                        ksRecVideo.setCommentCount((long) feedsBean.getCommentCount());
+                        ksRecVideo.setShareCount((long) feedsBean.getShareCount());
+                        ksRecVideo.setViewCount((long) feedsBean.getViewCount());
+                        ksRecVideo.setVideoUrl(feedsBean.getMainMvUrls().get(0).getUrl());
+                        ksRecVideo.setCreateDate(Long.parseLong(yyyymmdd.format(new Date())));
+                        ksRecVideoDaoService.insert(ksRecVideo);
+                    }catch (Exception ignore){ignore.printStackTrace();}
                 });
             }
         }

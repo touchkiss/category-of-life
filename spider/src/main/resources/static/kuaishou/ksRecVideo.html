@@ -4,12 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="id=edge"/>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link href="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link href="http://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <title>快手推荐列表</title>
 </head>
 <body>
@@ -32,19 +29,13 @@
     </table>
     <script>
         let query = () => {
-            $('#videoList').dataTable({
+            $('#videoList').DataTable({
                 "processing": true,
                 "paging": true,//开启表格分页
                 "serverSide": true,
                 "pagingType": "full_numbers",
                 "searching": false,
-                "iDisplayLength": 20,
-                "aaSorting": [[0, 'desc']],
-                "scrollX": true,
-                "scrollCollapse": "true",
-                "fixedHeader": {
-                    "header": true
-                },
+                "iDisplayLength": 25,
                 "language": {
                     "url": "/Chinese.json"
                 },
@@ -69,12 +60,13 @@
                         "data": null, "defaultContent": ""
                         , "fnCreatedCell": (nTd, sData, oData, iRow, iCol) => {
                             $(nTd).empty()
-                            $("<a>播放</a>").attr("href",oData.videoUrl).aattr("target","_blank").appendTo($(nTd));
+                            $("<a>播放</a>").attr("href",oData.videoUrl).attr("target","_blank").css("cursor","pointer").appendTo($(nTd));
                         }
                     }
                 ]
             });
         }
+        query();
     </script>
 </div>
 </body>
