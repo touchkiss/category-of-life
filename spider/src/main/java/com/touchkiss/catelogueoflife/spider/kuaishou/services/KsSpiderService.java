@@ -38,4 +38,12 @@ public interface KsSpiderService {
      * @return
      */
     KsFeedProfileResponse userFeed(KsFeedProfileRequest ksFeedProfileRequest);
+
+    /**
+     * 快手推荐
+     *
+     * @param ksRecommendRequest
+     * @return
+     */
+    KsRecommendResponse recommend(KsRecommendRequest ksRecommendRequest);
 }

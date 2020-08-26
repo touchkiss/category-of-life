@@ -123,6 +123,11 @@ public class KsSpiderServiceImpl implements KsSpiderService {
         return ksFeedProfileResponse;
     }
 
+    @Override
+    public KsRecommendResponse recommend(KsRecommendRequest ksRecommendRequest) {
+        return restTemplate.postForEntity("https://wxmini-api.uyouqu.com/rest/wd/feed/recommend", ksRecommendRequest, KsRecommendResponse.class).getBody();
+    }
+
     private HttpHeaders getHttpHeaders() {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat");
