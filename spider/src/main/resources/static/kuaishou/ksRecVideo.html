@@ -60,7 +60,26 @@
                         "data": null, "defaultContent": ""
                         , "fnCreatedCell": (nTd, sData, oData, iRow, iCol) => {
                             $(nTd).empty()
-                            $("<a>播放</a>").attr("href",oData.videoUrl).attr("target","_blank").css("cursor","pointer").appendTo($(nTd));
+                            $("<a>播放</a>").attr("href", oData.videoUrl).attr("target", "_blank").css("cursor", "pointer").appendTo($(nTd));
+                            // $(nTd).append("&nbsp;&nbsp;")
+                            // $("<a>标记</a>").attr("href", "#").attr("target", "_blank").css("cursor", "pointer").click(() => {
+                            //     $.ajax({
+                            //         "url": "/kuaishou/ksRecVideo/" + oData.photoId,
+                            //         "type": "Patch",
+                            //         "contentType": "application/json",
+                            //         "dataType": "json",
+                            //         "async": true,
+                            //         "data": {
+                            //             nowStatus: 1
+                            //         },
+                            //         "success": (data) => {
+                            //             alert("成功");
+                            //             query()
+                            //         },
+                            //         "error": () => {
+                            //         }
+                            //     });
+                            // }).appendTo($(nTd));
                         }
                     }
                 ]

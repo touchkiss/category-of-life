@@ -14,6 +14,7 @@ import java.util.List;
 public class PageResult {
     private Integer draw;
     private Long count;
+    private Long recordsTotal;
     private Long recordsFiltered;
     private List results;
     private List data;
@@ -24,6 +25,7 @@ public class PageResult {
     public PageResult(Integer draw, Long recordsTotal, Long recordsFiltered, List results) {
         this.draw = draw;
         this.count = recordsTotal;
+        this.recordsTotal = recordsFiltered;
         this.recordsFiltered = recordsFiltered;
         this.results = results;
         this.data=results;
@@ -39,6 +41,7 @@ public class PageResult {
         this.draw = draw;
         this.count = page == null ? 0 : page.getTotal();
         this.recordsFiltered = page == null ? 0 : page.getTotal();
+        this.recordsTotal = this.recordsFiltered;
         this.results = page == null ? null : page.getResult();
         this.data=results;
     }
@@ -46,6 +49,7 @@ public class PageResult {
     public PageResult(Page page){
         this.count = page == null ? 0 : page.getTotal();
         this.recordsFiltered = page == null ? 0 : page.getTotal();
+        this.recordsTotal = this.recordsFiltered;
         this.results = page == null ? null : page.getResult();
         this.data=results;
     }

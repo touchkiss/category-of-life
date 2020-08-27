@@ -3,7 +3,7 @@ package com.touchkiss.catelogueoflife.kuaishou.bean;
 import lombok.Data;
 
 /**
- * Created on 2020-08-26 21:58:03
+ * Created on 2020-08-27 09:12:51
  *
  * @author Touchkiss
  */
@@ -24,4 +24,5 @@ public class KsRecVideo {
 	private Long createTime; //
 	private Long createDate; //
 	private Long lastModifyTime; //
+	private Integer nowStatus; //
 }
